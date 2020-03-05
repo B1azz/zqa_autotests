@@ -1,0 +1,7 @@
+pytest
+pytest-reportportal
+pytest-html
+pytest-logger
+pytest-parallel
+requests
+selenium
