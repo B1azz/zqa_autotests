@@ -1,4 +1,3 @@
-import inspect
 import time
 
 from selenium.common.exceptions import NoSuchElementException, TimeoutException
@@ -292,25 +291,3 @@ class BasePage:
         :return: локатор кнопки в xpath
         """
         return f"//zyfra-icon[@iconclass='{icon_class}']"
-
-    def get_path_locators(self, cls):
-        """
-        Возвращает коллекцию локаторов из класса в виде пары : метод проверки и путь локатора
-        :param cls: класс с локаторами
-        """
-        locators = []
-        for item in inspect.getmembers(cls, lambda a: not (inspect.isroutine(a))):
-            if item[0] is '__class__':
-                break
-            locators.append(item[1])
-
-        return locators
-
-    def go_to_tab_by_name(self, locator, name):
-        """
-        Перейти на вкладку по имени
-        :param locator: имя локатора
-        :param name: имя вкладки
-        """
-        tab = self.add_text_to_locator(*locator, name)
-        self.click_to_element(*tab)
