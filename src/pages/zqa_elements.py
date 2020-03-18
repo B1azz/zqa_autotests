@@ -1,6 +1,6 @@
 from src.locators.locators_elements import ZQAToolbarLocators as Tlbr, \
     ZQATableLocators as Tbl, \
-    ZQAMenuLocators as Menu, \
+    ZQATabLocators as Tab, \
     ZQADatePickerLocators as Date, \
     ZQAContentContainerLocators as Content, \
     ZQACalendarLocators as Calendar, \
@@ -143,10 +143,10 @@ class ZQATable(ZQAElement):
             self.base_page.click_to_element(*table_line)
 
 
-class ZQAMenu(ZQAElement):
+class ZQATab(ZQAElement):
     def __init__(self, entry_locator, base_page):
         super().__init__(entry_locator, base_page)
-        self.tree_tab = (Menu.TREE_TAB[0], self.entry_locator + Menu.TREE_TAB[1])
+        self.tree_tab = (Tab.TREE_TAB[0], self.entry_locator + Tab.TREE_TAB[1])
 
     def click_to_tree_tab_by_name(self, name):
         """
@@ -250,5 +250,13 @@ class ZQACalendar(ZQAElement):
 
 
 class ZQADropDown(ZQAElement):
-    def __init__(self, entry_locator, base_page):
+    def __init__(self, entry_locator, base_page):     
         super().__init__(entry_locator, base_page)
+
+    def select_option_by_text(self, text):
+        option_selector = self.base_page.add_text_to_locator(*Drop.DROP_DOWN_OPTION, text)
+        self.base_page.click_to_element(*option_selector)
+        
+    def select_menu_line_by_text(self, text):
+        menu_line = self.base_page.add_text_to_locator(*Drop.MENU_LINE, text)
+        self.base_page.click_to_element(menu_line)

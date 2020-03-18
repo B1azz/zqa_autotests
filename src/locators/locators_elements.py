@@ -43,9 +43,9 @@ class ZQAContentContainerLocators:
 
 class ZQAConfirmDialog:
     DIALOG = (By.XPATH, "//lims-confirm-dialog")
-    DIALOG_HEADER = (By.XPATH, DIALOG[1] + "//div[@class='title']")
-    DIALOG_DELETE_BUTTON = (By.XPATH, DIALOG[1] + "//button[@ng-reflect-color='danger']")
-    DIALOG_CANCEL_BUTTON = (By.XPATH, DIALOG[1] + "//button[@ng-reflect-color='secondary']")
+    DIALOG_HEADER = (By.XPATH, f"{DIALOG[1]}//div[@class='title']")
+    DIALOG_DELETE_BUTTON = (By.XPATH, f"{DIALOG[1]}//button[@ng-reflect-color='danger']")
+    DIALOG_CANCEL_BUTTON = (By.XPATH, f"{DIALOG[1]}//button[@ng-reflect-color='secondary']")
 
 
 class ZQAContextMenuLocators:
@@ -54,11 +54,13 @@ class ZQAContextMenuLocators:
 
 
 class ZQADropDownLocators:
-    DROP_DOWN = ()
-    DROP_DOWN_OPTION = ()
+    DROP_DOWN = (By.XPATH, "//zyfra-select-panel")
+    DROP_DOWN_OPTION = (By.XPATH, f"{DROP_DOWN[1]}//div[@class='option']")
+    MENU = (By.XPATH, "//zyfra-menu")
+    MENU_LINE = (By.XPATH, f"{MENU[1]}//ul[@class='zyfra-menu-time']//li")
 
 
-class ZQAMenuLocators:
+class ZQATabLocators:
     TAB = (By.XPATH, "//ul//li")
     TREE_TAB = (By.XPATH, "//mat-tree-node//div[@class='menu-item-block-name']")
     SPAN_TAB = (By.XPATH, "//zyfra-icon[@iconcalss='add-plus']")
