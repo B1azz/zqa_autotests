@@ -1,0 +1,1 @@
+from src.locators.normdocs.locators_normdocs_main import NormDocsMain
