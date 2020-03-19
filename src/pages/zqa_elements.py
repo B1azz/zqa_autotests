@@ -1,16 +1,39 @@
-from src.locators.locators_elements import ZQAToolbarLocators as Tlbr, \
+from src.locators.locators_elements import ZQADialogLocators as Dialog, \
+    ZQAToolbarLocators as Tlbr, \
     ZQATableLocators as Tbl, \
     ZQATabLocators as Tab, \
     ZQADatePickerLocators as Date, \
     ZQAContentContainerLocators as Content, \
     ZQACalendarLocators as Calendar, \
-    ZQADropDownLocators as Drop
+    ZQADropDownLocators as Drop, \
+    ZQAConfirmDialogLocators as Confirm
 
 
 class ZQAElement:
     def __init__(self, entry_locator, base_page):
         self.entry_locator = entry_locator
         self.base_page = base_page
+
+
+class ZQADialog(ZQAElement):
+    def __init__(self, entry_locator, base_page):
+        super().__init__(entry_locator, base_page)
+        self.close_button = (Dialog.CLOSE_BUTTON[0], self.entry_locator + Dialog.CLOSE_BUTTON[1])
+        self.cancel_button = (Dialog.CANCEL_BUTTON[0], self.entry_locator + Dialog.CANCEL_BUTTON[1])
+        self.save_button = (Dialog.SAVE_BUTTON[0], self.entry_locator + Dialog.SAVE_BUTTON[1])
+        self.dialog_header = (Dialog.DIALOG_HEADER[0], self.entry_locator + Dialog.DIALOG_HEADER[1])
+
+    def should_be_header_text(self, text):
+        assert self.base_page.get_element_text(*self.dialog_header) == text, 'Неправильный заголовок'
+
+    def click_close_button(self):
+        self.base_page.click_to_element(*self.close_button)
+
+    def click_cancel_button(self):
+        self.base_page.click_to_element(*self.cancel_button)
+
+    def click_save_button(self):
+        self.base_page.click_to_element(*self.save_button)
 
 
 class ZQAToolbar(ZQAElement):
@@ -142,6 +165,11 @@ class ZQATable(ZQAElement):
         if "active" not in self.base_page.get_element_attribute(*table_line, "class"):
             self.base_page.click_to_element(*table_line)
 
+    def should_be_line_with_name(self, name):
+        cell = self.base_page.add_text_to_locator(*self.cell_locator, name)
+        table_line = (cell[0], cell[1] + "/..")
+        assert self.base_page.is_element_present(*table_line), 'Строки с такой ячейкой нет'
+
 
 class ZQATab(ZQAElement):
     def __init__(self, entry_locator, base_page):
@@ -153,8 +181,14 @@ class ZQATab(ZQAElement):
         Клик по элементу дерева с учетом пробелов
         :param name: имя вкладки в списке
         """
-        new_locator = self.base_page.add_text_to_locator(*self.tree_tab, name)
-        self.base_page.click_to_element(*new_locator)
+        tree_tab_locator = self.base_page.add_text_to_locator(*self.tree_tab, name)
+        self.base_page.click_to_element(*tree_tab_locator)
+
+    def should_be_tree_tab_by_name_is_selected(self, name):
+        tree_tab_locator = self.base_page.add_text_to_locator(*self.tree_tab, name)
+        tree_tab_active_locator = (tree_tab_locator[0], tree_tab_locator[1] + "/../..")
+        assert self.base_page.get_element_attribute(*tree_tab_active_locator, 'class') \
+               == 'menu-item-link active ng-star-inserted', 'Элемент дерева не выделен'
 
 
 class ZQADatePicker(ZQAElement):
@@ -250,13 +284,28 @@ class ZQACalendar(ZQAElement):
 
 
 class ZQADropDown(ZQAElement):
-    def __init__(self, entry_locator, base_page):     
+    def __init__(self, entry_locator, base_page):
         super().__init__(entry_locator, base_page)
 
     def select_option_by_text(self, text):
         option_selector = self.base_page.add_text_to_locator(*Drop.DROP_DOWN_OPTION, text)
         self.base_page.click_to_element(*option_selector)
-        
+
     def select_menu_line_by_text(self, text):
         menu_line = self.base_page.add_text_to_locator(*Drop.MENU_LINE, text)
         self.base_page.click_to_element(menu_line)
+
+
+class ZQAConfirmDialog(ZQAElement):
+    def __init__(self, entry_locator, base_page):
+        super().__init__(entry_locator, base_page)
+
+    def should_be_confirm_dialog(self):
+        assert self.base_page.is_element_present(*Confirm.DIALOG), 'Диалог удаления не появился'
+
+    def click_delete_button(self):
+        self.base_page.click_to_element(*Confirm.DIALOG_DELETE_BUTTON)
+
+    def click_cancel_button(self):
+        self.base_page.click_to_element(*Confirm.DIALOG_CANCEL_BUTTON)
+

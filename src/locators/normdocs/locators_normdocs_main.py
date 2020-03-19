@@ -3,6 +3,7 @@ from selenium.webdriver.common.by import By
 
 class NormDocsMain:
     NORM_DOCS = (By.XPATH, "//qa-normdocs")
+    TYPEDOCS_REGION = (By.XPATH, f"{NORM_DOCS[1]}//dp-split-area[1]")
 
     TYPEDOCS_TOOLBAR = (By.XPATH, f"{NORM_DOCS[1]}//qa-normdocs-sidebar/div")
     TYPEDOCS_TREE = (By.XPATH, f"{NORM_DOCS[1]}//qa-normdocs-sidebar/lims-tree")

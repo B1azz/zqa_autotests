@@ -41,7 +41,7 @@ class ZQAContentContainerLocators:
     ADD_BUTTON = (By.XPATH, "//button[2]")
 
 
-class ZQAConfirmDialog:
+class ZQAConfirmDialogLocators:
     DIALOG = (By.XPATH, "//lims-confirm-dialog")
     DIALOG_HEADER = (By.XPATH, f"{DIALOG[1]}//div[@class='title']")
     DIALOG_DELETE_BUTTON = (By.XPATH, f"{DIALOG[1]}//button[@ng-reflect-color='danger']")
@@ -56,6 +56,7 @@ class ZQAContextMenuLocators:
 class ZQADropDownLocators:
     DROP_DOWN = (By.XPATH, "//zyfra-select-panel")
     DROP_DOWN_OPTION = (By.XPATH, f"{DROP_DOWN[1]}//div[@class='option']")
+
     MENU = (By.XPATH, "//zyfra-menu")
     MENU_LINE = (By.XPATH, f"{MENU[1]}//ul[@class='zyfra-menu-time']//li")
 
@@ -80,3 +81,4 @@ class ZQACalendarLocators:
     CALENDAR_TABLE_MONTH = (By.XPATH, f"{CALENDAR[1]}//mat-month-view//table")
     CALENDAR_TABLE_YEAR = (By.XPATH, f"{CALENDAR[1]}//mat-year-view//table")
     CALENDAR_TABLE_MULTI_YEAR = (By.XPATH, f"{CALENDAR[1]}//mat-multi-year-view//table")
+
