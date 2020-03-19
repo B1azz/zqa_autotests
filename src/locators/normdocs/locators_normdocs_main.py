@@ -13,17 +13,18 @@ class NormDocsMain:
 
 class NormDocsDialog:
     DIALOG = (By.XPATH, "//qa-dialog-create-normdoc")
-    DIALOG_TREE = (By.XPATH, f"({DIALOG[1]}//lims-tree")
+    DIALOG_TREE = (By.XPATH, f"{DIALOG[1]}//lims-tree")
 
 # region Общие
-    NAME = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width50'])[1]//input")
-    CODE = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width50'])[2]//input")
-    TYPEDOC = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width50'])[3]//zyfra-select")
-    ORDER_NUMBER = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width50'])[4]//input")
-    DESCRIPTION = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width100'])//textarea")
-    ACCEPT_DATE = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width33'])[1]//zyfra-datepicker")
-    START_DATE = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width33'])[2]//zyfra-datepicker")
-    STOP_DATE = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width33'])[3]//zyfra-datepicker")
+    NAME = (By.XPATH, f"{DIALOG[1]}//div[@class='form__name']//input")
+    CODE = (By.XPATH, f"{DIALOG[1]}//div[@class='form__code']//input")
+    TYPEDOC = (By.XPATH, f"{DIALOG[1]}//div[@class='form__document-type']//zyfra-select")
+    TYPEDOC_INPUT = (By.XPATH, f"{TYPEDOC[1]}//input")
+    ORDER_NUMBER = (By.XPATH, f"{DIALOG[1]}//div[@class='form__order-number']//input")
+    DESCRIPTION = (By.XPATH, f"{DIALOG[1]}//div[@class='form__description']//textarea")
+    ACCEPT_DATE = (By.XPATH, f"{DIALOG[1]}//div[@class='form__date form__date--acceptance']//zyfra-datepicker")
+    START_DATE = (By.XPATH, f"{DIALOG[1]}//div[@class='form__date form__date--start']//zyfra-datepicker")
+    STOP_DATE = (By.XPATH, f"{DIALOG[1]}//div[@class='form__date form__date--end']//zyfra-datepicker")
 # endregion
 
 # region Содержимое

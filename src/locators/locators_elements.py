@@ -16,13 +16,13 @@ class ZQAToolbarLocators:
     DELETE_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'delete']")
     SEARCH_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'sort-zoom-in']")
     SEARCH_INPUT = (By.XPATH, "//input")
-    REFRESH_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'arrows-cached']")
+    REFRESH_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'arrows-cached-1']")
     SETTINGS_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'settings']")
 
 
 class ZQATableLocators:
     BUTTON = (By.XPATH, "//button")
-    CELL = (By.XPATH, "//tr//td")
+    CELL = (By.XPATH, "//tr//td/span")
     BLINE = (By.XPATH, "//tbody//tr")
     HLINE = (By.XPATH, "//thead//tr")
     FLINE = (By.XPATH, "//tfoot//tr")
@@ -54,7 +54,7 @@ class ZQAContextMenuLocators:
 
 
 class ZQADropDownLocators:
-    DROP_DOWN = (By.XPATH, "//zyfra-select-panel")
+    DROP_DOWN = (By.XPATH, "//zyfra-overlay-container")
     DROP_DOWN_OPTION = (By.XPATH, f"{DROP_DOWN[1]}//div[@class='option']")
 
     MENU = (By.XPATH, "//zyfra-menu")
