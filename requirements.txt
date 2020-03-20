@@ -1,4 +1,5 @@
 pytest
+pytest-metadata
 pytest-reportportal
 pytest-html
 pytest-logger

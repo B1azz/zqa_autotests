@@ -1,7 +1,8 @@
 import logging
 import sys
-
 import pytest
+import requests
+
 from pytest_reportportal import RPLogger, RPLogHandler
 from selenium import webdriver
 

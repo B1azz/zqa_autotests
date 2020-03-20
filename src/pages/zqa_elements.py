@@ -22,6 +22,7 @@ class ZQADialog(ZQAElement):
         self.cancel_button = (Dialog.CANCEL_BUTTON[0], self.entry_locator + Dialog.CANCEL_BUTTON[1])
         self.save_button = (Dialog.SAVE_BUTTON[0], self.entry_locator + Dialog.SAVE_BUTTON[1])
         self.dialog_header = (Dialog.DIALOG_HEADER[0], self.entry_locator + Dialog.DIALOG_HEADER[1])
+        self.checker = (Dialog.CHECKER[0], self.entry_locator + Dialog.CHECKER[1])
 
     def should_be_header_text(self, text):
         assert self.bp.get_element_text(*self.dialog_header) == text, 'Неправильный заголовок'
@@ -37,6 +38,20 @@ class ZQADialog(ZQAElement):
     def click_save_button(self):
         self.bp.click_to_element(*self.save_button)
         self.bp.some_wait()
+
+    def click_checker(self):
+        self.bp.click_to_element(*self.cancel_button)
+        self.bp.some_wait()
+
+    def should_be_checker_state(self, state: bool):
+        # zyfra_container-checkbox zyfra_checkbox-checked
+        # zyfra_container-checkbox
+        checkbox_state = self.bp.get_element_attribute(*self.checker, "class")
+        if "zyfra_checkbox-checked" in checkbox_state:
+            _state = True
+        else:
+            _state = False
+        assert _state == state, 'Неверное состояние чекера'
 
 
 class ZQAToolbar(ZQAElement):

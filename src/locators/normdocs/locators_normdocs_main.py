@@ -1,7 +1,7 @@
 from selenium.webdriver.common.by import By
 
 
-class NormDocsMain:
+class NormDocsMainLocators:
     NORM_DOCS = (By.XPATH, "//qa-normdocs")
     TYPEDOCS_REGION = (By.XPATH, f"{NORM_DOCS[1]}//dp-split-area[1]")
 
@@ -11,7 +11,7 @@ class NormDocsMain:
     DOCS_TABLE = (By.XPATH, f"{NORM_DOCS[1]}//table")
 
 
-class NormDocsDialog:
+class NormDocsDialogLocators:
     DIALOG = (By.XPATH, "//qa-dialog-create-normdoc")
     DIALOG_TREE = (By.XPATH, f"{DIALOG[1]}//lims-tree")
 

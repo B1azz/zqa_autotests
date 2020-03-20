@@ -1,7 +1,7 @@
 from src.pages.base_page import BasePage as BP
 
-from src.locators.normdocs.locators_normdocs_main import NormDocsMain as Main, \
-    NormDocsDialog as Dialog
+from src.locators.normdocs.locators_normdocs_main import NormDocsMainLocators as Main, \
+    NormDocsDialogLocators as Dialog
 from src.pages.zqa_elements import ZQAToolbar, ZQATable, ZQATab, \
     ZQADropDown, ZQAConfirmDialog, ZQADialog, ZQACalendar, ZQADatePicker, ZQAContentContainer
 

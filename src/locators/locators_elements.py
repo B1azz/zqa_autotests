@@ -6,6 +6,7 @@ class ZQADialogLocators:
     DIALOG_HEADER = (By.XPATH, "//div[@class='dialog__title']")
     CANCEL_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='secondary']")
     SAVE_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='standart']")
+    CHECKER = (By.XPATH, "//div[@class='dialog__actions__checkbox-is-active']//label")
 
 
 class ZQAToolbarLocators:
