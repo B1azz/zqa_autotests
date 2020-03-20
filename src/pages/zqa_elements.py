@@ -138,7 +138,7 @@ class ZQATable(ZQAElement):
         Клик по ячейке таблицы с тектом
         :param text: текст в ячейке
         """
-        cell_by_text = self.bp.add_text_to_locator(*self.cell_locator, text)
+        cell_by_text = self.bp.add_strip_text_to_locator(*self.cell_locator, text)
         self.bp.click_to_element(*cell_by_text)
 
     def click_to_table_line_by_number(self, number):
@@ -154,8 +154,8 @@ class ZQATable(ZQAElement):
         Выбор строки по тексту ячейки внутри, с проверкой
         :param text: текст в ячейке
         """
-        cell_by_text = self.bp.add_text_to_locator(*self.cell_locator, text)
-        table_line = (cell_by_text[0], cell_by_text[1] + "/..")
+        cell_by_text = self.bp.add_strip_text_to_locator(*self.cell_locator, text)
+        table_line = (cell_by_text[0], cell_by_text[1] + "/../..")
         if "active" not in self.bp.get_element_attribute(*table_line, "class"):
             self.bp.click_to_element(*cell_by_text)
 
@@ -175,8 +175,13 @@ class ZQATable(ZQAElement):
 
     def should_be_line_with_strip_name(self, name):
         cell = self.bp.add_strip_text_to_locator(*self.cell_locator, name)
-        table_line = (cell[0], cell[1] + "/..")
+        table_line = (cell[0], cell[1] + "/../..")
         assert self.bp.is_element_present(*table_line), 'Строки с такой ячейкой нет'
+
+    def should_be_not_line_with_strip_name(self, name):
+        cell = self.bp.add_strip_text_to_locator(*self.cell_locator, name)
+        table_line = (cell[0], cell[1] + "/../..")
+        assert self.bp.is_not_element_present(*table_line), 'Строка с такой ячейкой в таблице'
 
 
 class ZQATab(ZQAElement):
@@ -189,11 +194,11 @@ class ZQATab(ZQAElement):
         Клик по элементу дерева с учетом пробелов
         :param name: имя вкладки в списке
         """
-        tree_tab_locator = self.bp.add_text_to_locator(*self.tree_tab, name)
+        tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
         self.bp.click_to_element(*tree_tab_locator)
 
     def should_be_tree_tab_by_name_is_selected(self, name):
-        tree_tab_locator = self.bp.add_text_to_locator(*self.tree_tab, name)
+        tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
         tree_tab_active_locator = (tree_tab_locator[0], tree_tab_locator[1] + "/../..")
         assert self.bp.get_element_attribute(*tree_tab_active_locator, 'class') \
                == 'menu-item-link active ng-star-inserted', 'Элемент дерева не выделен'
@@ -274,7 +279,16 @@ class ZQAContentContainer(ZQAElement):
         Ввод текста содержимого
         :param text: текст содержимого
         """
+        self.bp.click_to_element(*self.input)
         self.bp.clear_input_text(*self.input, text)
+
+    def should_be_content_text(self, text):
+        """
+        Проверка текста внутри строки
+        :param text: текст содержимого
+        """
+        _text = self.bp.get_element_attribute(*self.input, 'value')
+        assert _text == text, 'Неверный текст содержимого'
 
 
 class ZQACalendar(ZQAElement):

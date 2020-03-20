@@ -33,9 +33,9 @@ class NormDocsDialog:
     CONTENT_TABLE_ADD = (By.XPATH, f"{CONTENT_TABLE[1]}//zyfra-icon[@iconclass='add-plus']")
     CONTENT_TABLE_ITEM = (By.XPATH, f"{CONTENT_TABLE[1]}//div[@class='entity__title']")
 
-    CONTENT_NAME = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width100'])[1]//input")
+    CONTENT_NAME = (By.XPATH, f"{DIALOG[1]}//div[@class='input-wrapper input-wrapper--name']//input")
 
-    CONTENT_CONTAINER = (By.XPATH, f"({DIALOG[1]}//div[@class='field-width100'])[2]")
+    CONTENT_CONTAINER = (By.XPATH, f"{DIALOG[1]}//div[@class='input-wrapper input-wrapper--file-name']")
 # endregion
 
 # region Положения нормативного документа

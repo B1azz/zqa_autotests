@@ -22,6 +22,7 @@ class NormDocsMainPage(BP):
 
     def choose_typedoc(self, text):
         self.typedocs_tree.click_to_tree_tab_by_name(text)
+        self.some_wait(timeout=1)
 
     def should_be_normdoc_is_selected(self, text):
         self.typedocs_tree.should_be_tree_tab_by_name_is_selected(text)
@@ -47,7 +48,7 @@ class NormDocsMainPage(BP):
         self.normdocs_toolbar.click_add_button()
         self.some_wait(timeout=1)
 
-    def click_edit_this_normdoc(self, name):
+    def edit_this_normdoc(self, name):
         self.normdocs_table.choose_table_line_by_cell_text(name)
         self.normdocs_toolbar.click_edit_button()
 
@@ -60,6 +61,7 @@ class NormDocsMainPage(BP):
         self.normdocs_toolbar.click_delete_button()
         self.some_wait()
         self.confirm_dialog.click_delete_button()
+        self.some_wait(timeout=1)
 
     def refresh_normdoc_table(self):
         self.normdocs_toolbar.click_refresh_button()
@@ -72,6 +74,10 @@ class NormDocsMainPage(BP):
 
     def should_be_this_normdoc_in_table(self, normdoc_name):
         self.normdocs_table.should_be_line_with_strip_name(normdoc_name)
+
+    def should_be_this_normdoc_not_in_table(self, normdoc_name):
+        self.normdocs_table.should_be_not_line_with_strip_name(normdoc_name)
+
     # endregion
 
 
@@ -91,8 +97,16 @@ class NormDocsDialog(BP):
     def should_be_normdocs_dialog(self):
         assert self.is_element_present(*Dialog.DIALOG), 'Диалог создания НД не появился'
 
+    def switch_tab_by_name(self, name):
+        self.dialog_tabs.click_to_tree_tab_by_name(name)
+
     def click_save_button(self):
         self.dialog.click_save_button()
+        self.some_wait(timeout=1)
+
+    def click_close_button(self):
+        self.dialog.click_close_button()
+        self.some_wait(timeout=1)
 
     # region Общие
     def should_be_in_common_tab(self):
@@ -149,16 +163,26 @@ class NormDocsDialog(BP):
         self.stop_date.input_text_to_date_input(stop_date)
 
     def input_common_tab(self, name, code, typedoc, number, description, accept_date, start_date, stop_date):
-        self.input_name(name)
-        self.input_code(code)
-        self.choose_typedoc(typedoc)
-        self.input_order_number(number)
-        self.input_description(description)
-        self.input_accept_date(accept_date)
-        self.input_start_date(start_date)
-        self.input_stop_date(stop_date)
+        self.switch_tab_by_name('Общие')
+        if name != '':
+            self.input_name(name)
+        if code != '':
+            self.input_code(code)
+        if typedoc != '':
+            self.choose_typedoc(typedoc)
+        if number != '':
+            self.input_order_number(number)
+        if description != '':
+            self.input_description(description)
+        if accept_date != '':
+            self.input_accept_date(accept_date)
+        if start_date != '':
+            self.input_start_date(start_date)
+        if stop_date != '':
+            self.input_stop_date(stop_date)
 
-    def should_be_in_common_tab_values(self, name, code, typedoc, number, description, accept_date, start_date, stop_date):
+    def should_be_in_common_tab_values(self, name, code, typedoc, number, description,
+                                       accept_date, start_date, stop_date):
         _name = self.get_element_attribute(*Dialog.NAME, 'value')
         _code = self.get_element_attribute(*Dialog.CODE, 'value')
         _typedoc = self.get_element_attribute(*Dialog.TYPEDOC_INPUT, 'value')
@@ -184,10 +208,17 @@ class NormDocsDialog(BP):
         self.some_wait()
 
     def click_content_by_name(self, name):
-        content_item = self.add_text_to_locator(*Dialog.CONTENT_TABLE_ITEM, name)
+        content_item = self.add_strip_text_to_locator(*Dialog.CONTENT_TABLE_ITEM, name)
         self.click_to_element(*content_item)
 
+    def choose_content_by_name(self, name):
+        content_item = self.add_strip_text_to_locator(*Dialog.CONTENT_TABLE_ITEM, name)
+        content_item_string = (content_item[0], content_item[1] + "/..")
+        if "active" not in self.get_element_attribute(*content_item_string, "class"):
+            self.click_to_element(*content_item)
+
     def input_content_name(self, name):
+        self.click_to_element(*Dialog.CONTENT_NAME)
         self.clear_input_text(*Dialog.CONTENT_NAME, name)
 
     def should_be_content_name(self, name):
@@ -199,14 +230,27 @@ class NormDocsDialog(BP):
         self.input_content_name(name)
         self.content.input_to_content_text(content_string)
         self.content.click_to_save_button()
+        self.some_wait()
 
     def remove_content(self, name):
-        self.click_content_by_name(name)
+        self.choose_content_by_name(name)
         self.click_content_remove()
 
-    def should_be_content_in_table_by_name(self, name):
+    def edit_content(self, name, new_name, content_string):
+        self.choose_content_by_name(name)
+        self.input_content_name(new_name)
+        self.content.input_to_content_text(content_string)
+        self.content.click_to_save_button()
+        self.some_wait()
+
+    def should_be_content_not_in_table_by_name(self, name):
         content_item = self.add_text_to_locator(*Dialog.CONTENT_TABLE_ITEM, name)
-        assert self.is_element_present(*content_item)
+        assert self.is_not_element_present(*content_item)
+
+    def should_be_in_content_fields(self, name, content_string):
+        self.choose_content_by_name(name)
+        self.should_be_content_name(name)
+        self.content.should_be_content_text(content_string)
     # endregion
 
     # region Положения нормативного документа
