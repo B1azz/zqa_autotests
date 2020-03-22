@@ -58,7 +58,10 @@ class ZQATestDialogLocators:
 
 
 class ZQACodeEditorLocators:
-    pass
+    HEADER = (By.XPATH, "//div[@class ='dialog__toolbar__title']/div")
+    AREA = ()
+    CANCEL_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='secondary']")
+    SAVE_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='success']")
 
 
 class ZQATableLocators:

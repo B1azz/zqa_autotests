@@ -3,7 +3,7 @@ from src.pages.base_page import BasePage as BP
 from src.locators.methodologies.locators_methodologies import MethodologiesMainLocators as Main, \
     MethodsDialogLocators as DialogM, CollectionsDialogLocators as DialogC
 from src.pages.zqa_elements import ZQAToolbar, ZQATable, ZQATab, \
-    ZQAAddDialog, ZQADialog, ZQAConfirmDialog, ZQADropDown, ZQACodeEditor
+    ZQAAddDialog, ZQADialog, ZQAConfirmDialog, ZQADropDown, ZQACodeEditor, ZQATestDialog
 
 
 class MethodologiesMainPage(BP):
@@ -162,11 +162,46 @@ class MethodsDialog(BP):
 
         self.tests_toolbar = ZQAToolbar(DialogM.TESTS_TOOLBAR[1], self.BP)
         self.tests_table = ZQATable(DialogM.TESTS_TABLE[1], self.BP)
-        self.tests_dialog = ()
+        self.tests_analog_dialog = ZQATestDialog(DialogM.DIALOG_ANALOG[1], self.BP)
+        self.tests_discrete_dialog = ZQATestDialog(DialogM.DIALOG_DISCRETE[1], self.BP)
 
-        self.code_editor = ZQACodeEditor('', self.BP)
+        self.code_editor = ZQACodeEditor(DialogM.CALCULATIONS_DIALOG[1], self.BP)
 
         self.collections_toolbar = ZQAToolbar(DialogM.COLLECTIONS_TOOLBAR[1], self.BP)
         self.collections_table = ZQATable(DialogM.COLLECTIONS_TABLE[1], self.BP)
         self.collections_dialog = ZQAAddDialog(DialogM.COLLECTIONS_DIALOG[1], self.BP)
 
+    def should_be_method_dialog(self):
+        assert self.is_element_present(*DialogM.DIALOG), 'Диалог создания методики не появился'
+
+    def switch_tab_by_name(self, name):
+        self.dialog_tabs.click_to_tree_tab_by_name(name)
+
+    def click_save_button(self):
+        self.dialog.click_save_button()
+        self.some_wait(timeout=1)
+
+    def click_close_button(self):
+        self.dialog.click_close_button()
+        self.some_wait(timeout=1)
+
+    # region Общие
+    # endregion
+
+    # region Продукты
+    # endregion
+
+    # region Лаборатории
+    # endregion
+
+    # region Контексты использования
+    # endregion
+
+    # region Показатели
+    # endregion
+
+    # region Расчеты
+    # endregion
+
+    # region Сборники
+    # endregion
