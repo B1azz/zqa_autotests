@@ -31,27 +31,30 @@ class ZQAAddDialogLocators:
 
 
 class ZQATestDialogLocators:
-    CLOSE_BUTTON = ()
-    CANCEL_BUTTON = ()
-    SAVE_BUTTON = ()
-    HEADER = ()
-    NAME = ()
-    CODE = ()
-    OFFICIAL_NAME = ()
-    DESCRIPTION = ()
+    CLOSE_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass='cancel-close']")
+    CANCEL_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='secondary']")
+    SAVE_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='success']")
+    HEADER = (By.XPATH, "//div[@class ='dialog__toolbar__title']/div")
+    DIALOG_INPUTS = (By.XPATH, "//div[@class='dialog__content__form__body']")
+    NAME_SELECT = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-select")
+    NAME_INPUT = (By.XPATH, f"{NAME_SELECT}//input")
+    CODE = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-input[1]//input")
+    OFFICIAL_NAME = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-input[2]//input")
+    DESCRIPTION = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-input//textarea")
 
-    TABS = ()
-    COMMON_TAB = ()
-    ANALYTICS_TABS = ()
+    TABS = (By.XPATH, "//div[@class='dialog__content__form__tabs']")
+    COMMON_TAB = (By.XPATH, f"{TABS}//div[@class='dialog__content__form__tabs__tab'][1]//button")
+    ANALYTICS_TAB = (By.XPATH, f"{TABS}//div[@class='dialog__content__form__tabs__tab'][2]//button")
 
-    UNIT_CLASSES = ()
-    UNITS = ()
-    UNIT_DIGITS = ()
-    DIGITAL_SETS = ()
+    UNIT_CLASSES = (By.XPATH, "//div[@class='dialog__content__form__common__unit-classes']//zyfra-select")
+    UNIT_CLASSES_INPUT = (By.XPATH, f"{UNIT_CLASSES}//input")
+    UNITS = (By.XPATH, "//div[@class='dialog__content__form__common__units']//zyfra-select")
+    UNITS_INPUT = (By.XPATH, f"{UNITS}//input")
+    UNIT_DIGITS = (By.XPATH, "//div[@class='dialog__content__form__common__unit-digits']//input")
+    DIGITAL_SETS = (By.XPATH, "//div[@class='dialog__content__form__common__unit-classes']//zyfra-select")
+    DIGITAL_SETS_INPUT = (By.XPATH, f"{DIGITAL_SETS}//input")
 
     ANALYTICS_TABLE = (By.XPATH, "//div[@class='dialog__content__form__types ng-star-inserted']//table")
-
-
 
 
 class ZQACodeEditorLocators:

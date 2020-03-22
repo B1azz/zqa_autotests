@@ -8,7 +8,8 @@ from src.locators.locators_elements import ZQADialogLocators as Dialog, \
     ZQADropDownLocators as Drop, \
     ZQAConfirmDialogLocators as Confirm, \
     ZQAAddDialogLocators as Add, \
-    ZQACodeEditorLocators as Code
+    ZQACodeEditorLocators as Code, \
+    ZQATestDialogLocators as Test
 
 
 class ZQAElement:
@@ -170,6 +171,166 @@ class ZQAAddDialog(ZQAElement):
         toolbar.input_search_text(text)
 
 
+class ZQATestDialog(ZQAElement):
+    def __init__(self, entry_locator, bp):
+        super().__init__(entry_locator, bp)
+        self.close_button = (Test.CLOSE_BUTTON[0], self.entry_locator + Test.CLOSE_BUTTON[1])
+        self.cancel_button = (Test.CANCEL_BUTTON[0], self.entry_locator + Test.CANCEL_BUTTON[1])
+        self.save_button = (Test.SAVE_BUTTON[0], self.entry_locator + Test.SAVE_BUTTON[1])
+        self.header = (Test.HEADER[0], self.entry_locator + Test.HEADER[1])
+        self.dialog_inputs = (Test.DIALOG_INPUTS[0], self.entry_locator + Test.DIALOG_INPUTS[1])
+        self.name_select = (Test.NAME_SELECT[0], self.entry_locator + Test.NAME_SELECT[1])
+        self.name_input = (Test.NAME_INPUT[0], self.entry_locator + Test.NAME_INPUT[1])
+        self.code = (Test.CODE[0], self.entry_locator + Test.CODE[1])
+        self.official_name = (Test.OFFICIAL_NAME[0], self.entry_locator + Test.OFFICIAL_NAME[1])
+        self.description = (Test.DESCRIPTION[0], self.entry_locator + Test.DESCRIPTION[1])
+
+        self.tabs = (Test.TABS[0], self.entry_locator + Test.TABS[1])
+        self.common_tab = (Test.COMMON_TAB[0], self.entry_locator + Test.COMMON_TAB[1])
+        self.analytic_tab = (Test.ANALYTICS_TAB[0], self.entry_locator + Test.ANALYTICS_TAB[1])
+
+        self.unit_classes = (Test.UNIT_CLASSES[0], self.entry_locator + Test.UNIT_CLASSES[1])
+        self.unit_classes_input = (Test.UNIT_CLASSES_INPUT[0], self.entry_locator + Test.UNIT_CLASSES_INPUT[1])
+        self.units = (Test.UNITS[0], self.entry_locator + Test.UNITS[1])
+        self.units_input = (Test.UNITS_INPUT[0], self.entry_locator + Test.UNITS_INPUT[1])
+        self.unit_digits = (Test.UNIT_DIGITS[0], self.entry_locator + Test.UNIT_DIGITS[1])
+        self.digital_sets = (Test.DIGITAL_SETS[0], self.entry_locator + Test.DIGITAL_SETS[1])
+        self.digital_sets_input = (Test.DIGITAL_SETS_INPUT[0], self.entry_locator + Test.DIGITAL_SETS_INPUT[1])
+
+        self.analytic_table = (Test.ANALYTICS_TABLE[0], self.entry_locator + Test.ANALYTICS_TABLE[1])
+
+        self.drop_down = ZQADropDown('', self.bp)
+        self.table = ZQATable(self.analytic_table[1], self.bp)
+
+    def click_close_button(self):
+        self.bp.click_to_element(*self.close_button)
+        self.bp.some_wait()
+
+    def click_cancel_button(self):
+        self.bp.click_to_element(*self.cancel_button)
+        self.bp.some_wait()
+
+    def click_save_button(self):
+        self.bp.click_to_element(*self.save_button)
+        self.bp.some_wait()
+
+    def should_be_header_text(self, text):
+        assert self.bp.get_element_text(*self.header) == text, 'Неправильный заголовок'
+
+    def select_test_name_by_name(self, name):
+        self.bp.click_to_element(*self.name_select)
+        self.drop_down.select_option_by_text(name)
+
+    def input_test_name(self, name):
+        self.bp.clear_input_text(*self.name_input, name)
+
+    def input_test_code(self, code):
+        self.bp.clear_input_text(*self.code, code)
+
+    def input_test_official_name(self, official_name):
+        self.bp.clear_input_text(*self.official_name, official_name)
+
+    def input_test_description(self, description):
+        self.bp.clear_input_text(*self.description, description)
+
+    def input_test_inputs(self, name, code, official_name, description):
+        if name != '':
+            self.input_test_name(name)
+        if code != '':
+            self.input_test_code(code)
+        if official_name != '':
+            self.input_test_official_name(official_name)
+        if description != '':
+            self.input_test_description(description)
+
+    def should_be_test_inputs(self, name, code, official_name, description):
+        _name = self.bp.get_element_attribute(*self.name_input, 'value')
+        _code = self.bp.get_element_attribute(*self.code, 'value')
+        _official_name = self.bp.get_element_attribute(*self.official_name, 'value')
+        _description = self.bp.get_element_attribute(*self.description, 'value')
+        assert _name == name
+        assert _code == code
+        assert _official_name == official_name
+        assert _description == description
+
+    def go_to_common_tab(self):
+        self.bp.click_to_element(*self.common_tab)
+        self.bp.some_wait()
+
+    def go_to_analytic_tab(self):
+        self.bp.click_to_element(*self.analytic_tab)
+        self.bp.some_wait()
+
+    def choose_unit_class_by_name(self, name):
+        self.bp.click_to_element(*self.unit_classes)
+        self.bp.some_wait()
+        self.drop_down.select_option_by_text(name)
+
+    def choose_unit_by_name(self, name):
+        self.bp.click_to_element(*self.units)
+        self.bp.some_wait()
+        self.drop_down.select_option_by_text(name)
+
+    def input_unit_digit(self, digit):
+        self.bp.click_to_element(*self.unit_digits)
+        self.bp.clear_input_text(*self.unit_digits, digit)
+
+    def input_test_analog_units(self, unit_class, unit, digit):
+        if unit_class != '':
+            self.choose_unit_class_by_name(unit_class)
+        if unit != '':
+            self.choose_unit_by_name(unit)
+        if digit != '':
+            self.input_unit_digit(digit)
+
+    def should_be_analog_units(self, unit_class, unit, digit):
+        _units_class = self.bp.get_element_attribute(*self.unit_classes_input, 'value')
+        _unit = self.bp.get_element_attribute(*self.units_input, 'value')
+        _digit = self.bp.get_element_attribute(*self.unit_digits, 'value')
+        assert _units_class == unit_class
+        assert _unit == unit
+        assert _digit == digit
+
+    def choose_digital_set_by_name(self, name):
+        self.bp.click_to_element(*self.digital_sets)
+        self.bp.some_wait()
+        self.drop_down.select_option_by_text(name)
+
+    def should_be_digital_set(self, name):
+        _name = self.bp.get_element_attribute(*self.digital_sets_input, 'value')
+        assert _name == name
+
+    def add_line_to_analytic_table(self, analytic_type, start, additional, max):
+        self.table.click_to_table_column_by_number(5)
+        index = self.bp.get_count(self.table.table_line_locator)
+        if analytic_type != '':
+            self.table.click_to_cell_by_coordinates(index, 1)
+            self.bp.some_wait()
+            self.drop_down.select_option_by_text(analytic_type)
+        if start != '':
+            self.table.input_text_to_table_cell_by_coordinates(index, 2, start)
+        if additional != '':
+            self.table.input_text_to_table_cell_by_coordinates(index, 3, additional)
+        if max != '':
+            self.table.input_text_to_table_cell_by_coordinates(index, 4, max)
+
+    def edit_line_to_analytic_table(self, tr, analytic_type, start, additional, max):
+        if analytic_type != '':
+            self.table.click_to_cell_by_coordinates(tr, 1)
+            self.bp.some_wait()
+            self.drop_down.select_option_by_text(analytic_type)
+        if start != '':
+            self.table.input_text_to_table_cell_by_coordinates(tr, 2, start)
+        if additional != '':
+            self.table.input_text_to_table_cell_by_coordinates(tr, 3, additional)
+        if max != '':
+            self.table.input_text_to_table_cell_by_coordinates(tr, 4, max)
+
+    def delete_line_to_analytic_table(self, tr):
+        self.table.click_to_cell_by_coordinates(tr, 5)
+        self.bp.some_wait()
+
+
 class ZQACodeEditor(ZQAElement):
     def __init__(self, entry_locator, bp):
         super().__init__(entry_locator, bp)
@@ -188,6 +349,14 @@ class ZQATable(ZQAElement):
         :param name: наименование столбца
         """
         column = self.bp.add_text_to_locator(*self.column_locator, name)
+        self.bp.click_to_element(*column)
+
+    def click_to_table_column_by_number(self, number):
+        """
+        Клик по наименованию столбца таблицы
+        :param number: номер столбца
+        """
+        column = self.bp.add_index_to_locator(*self.column_locator, number)
         self.bp.click_to_element(*column)
 
     def click_to_cell_by_coordinates(self, tr, td):

@@ -55,6 +55,8 @@ class MethodsDialogLocators:
     TESTS = (By.XPATH, f"{DIALOG[1]}//lims-create-methodology-indicators")
     TESTS_TOOLBAR = (By.XPATH, f"{TESTS[1]}//div[@class='toolbar']")
     TESTS_TABLE = (By.XPATH, f"{TESTS[1]}//table")
+    DIALOG_ANALOG = (By.XPATH, "//qa-dialog-create-methodology-indicators-analog")
+    DIALOG_DISCRETE = (By.XPATH, "//qa-dialog-create-methodology-indicators-discrete")
     # endregion
 
     # region Расчеты
