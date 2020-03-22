@@ -67,6 +67,7 @@ class ZQACodeEditorLocators:
 class ZQATableLocators:
     BUTTON = (By.XPATH, "//button")
     CELL = (By.XPATH, "//tr//td/span")
+    DIALOG_CELL = (By.XPATH, "//tr//td")
     BLINE = (By.XPATH, "//tbody//tr")
     HLINE = (By.XPATH, "//thead//tr")
     FLINE = (By.XPATH, "//tfoot//tr")

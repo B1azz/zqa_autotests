@@ -162,7 +162,7 @@ class ZQAAddDialog(ZQAElement):
 
     def choose_table_line_by_text(self, text):
         table = ZQATable(self.table, self.bp)
-        table.choose_table_line_by_cell_text1(text)
+        table.click_to_table_dialog_cell_by_text(text)
 
     def input_search_text(self, text):
         toolbar = ZQAToolbar(self.toolbar, self.bp)
@@ -354,6 +354,12 @@ class ZQATable(ZQAElement):
         self.column_locator = (Tbl.BUTTON[0], self.entry_locator + Tbl.BUTTON[1])
         self.cell_locator = (Tbl.CELL[0], self.entry_locator + Tbl.CELL[1])
         self.table_line_locator = (Tbl.BLINE[0], self.entry_locator + Tbl.BLINE[1])
+        self.dialog_cell = (Tbl.DIALOG_CELL[0], self.entry_locator + Tbl.DIALOG_CELL[1])
+
+    def click_to_table_dialog_cell_by_text(self, text):
+        cell = self.bp.add_index_to_locator(*self.dialog_cell, text)
+        line = (cell[0], cell[1]+"/..")
+        self.bp.click_to_element(*line)
 
     def click_to_table_column_by_name(self, name):
         """
@@ -434,6 +440,14 @@ class ZQATable(ZQAElement):
         table_line = self.bp.add_index_to_locator(*self.table_line_locator, number)
         if "active" not in self.bp.get_element_attribute(*table_line, "class"):
             self.bp.click_to_element(*table_line)
+
+    def should_be_dialog_cell_with_name(self, name):
+        cell = self.bp.add_index_to_locator(*self.dialog_cell, name)
+        self.bp.is_element_present(*cell)
+
+    def should_be_not_dialog_cell_with_name(self, name):
+        cell = self.bp.add_index_to_locator(*self.dialog_cell, name)
+        self.bp.is_not_element_present(*cell)
 
     def should_be_line_with_name(self, name):
         cell = self.bp.add_text_to_locator(*self.cell_locator, name)

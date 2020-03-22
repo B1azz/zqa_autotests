@@ -149,9 +149,9 @@ class MethodsDialog(BP):
         self.dialog_tabs = ZQATab(DialogM.METHODS_TREE[1], self.BP)
         self.drop_down = ZQADropDown('', self.BP)
 
-        self.product_toolbar = ZQAToolbar(DialogM.PRODUCTS_TOOLBAR[1], self.BP)
-        self.product_table = ZQATable(DialogM.PRODUCTS_TABLE[1], self.BP)
-        self.product_dialog = ZQAAddDialog(DialogM.PRODUCTS_DIALOG[1], self.BP)
+        self.products_toolbar = ZQAToolbar(DialogM.PRODUCTS_TOOLBAR[1], self.BP)
+        self.products_table = ZQATable(DialogM.PRODUCTS_TABLE[1], self.BP)
+        self.products_dialog = ZQAAddDialog(DialogM.PRODUCTS_DIALOG[1], self.BP)
 
         self.labs_toolbar = ZQAToolbar(DialogM.LABS_TOOLBAR[1], self.BP)
         self.labs_table = ZQATable(DialogM.LABS_TABLE[1], self.BP)
@@ -185,13 +185,106 @@ class MethodsDialog(BP):
         self.dialog.click_close_button()
         self.some_wait(timeout=1)
 
+    def check_active(self):
+        self.dialog.click_checker()
+
+    def should_be_check_active_state(self, state:bool):
+        self.dialog.should_be_checker_state(state)
+
     # region Общие
+    def input_name(self, name):
+        self.clear_input_text(*DialogM.NAME, name)
+
+    def input_code(self, code):
+        self.clear_input_text(*DialogM.CODE, code)
+
+    def input_official_name(self, official_name):
+        self.clear_input_text(*DialogM.FULL_NAME, official_name)
+
+    def input_description(self, description):
+        self.clear_input_text(*DialogM.DESCRIPTION, description)
+
+    def check_uncertainty(self):
+        self.click_to_element(*DialogM.UNCERTAINTY)
+
+    def input_common_tab(self, name, code, official_name, description, uncertainty: bool):
+        self.switch_tab_by_name('Общие')
+        if name != '':
+            self.input_name(name)
+        if code != '':
+            self.input_code(code)
+        if official_name != '':
+            self.input_official_name(official_name)
+        if description != '':
+            self.input_description(description)
+        if uncertainty:
+            self.check_uncertainty()
+
+    def should_be_in_common_tab_values(self, name, code, official_name, description, uncertainty: bool):
+        _name = self.get_element_attribute(*DialogM.NAME, 'value')
+        _code = self.get_element_attribute(*DialogM.CODE, 'value')
+        _official_name = self.get_element_attribute(*DialogM.FULL_NAME, 'value')
+        _description = self.get_element_attribute(*DialogM.DESCRIPTION, 'value')
+        checkbox_state = self.get_element_attribute(*DialogM.UNCERTAINTY, "class")
+        if "zyfra_checkbox-checked" in checkbox_state:
+            _uncertainty = True
+        else:
+            _uncertainty = False
+        assert _name == name
+        assert _code == code
+        assert _official_name == official_name
+        assert _description == description
+        assert _uncertainty == uncertainty
     # endregion
 
     # region Продукты
+    def add_products_by_names(self, *products):
+        self.switch_tab_by_name('Продукты')
+        self.products_toolbar.click_add_button()
+        self.some_wait()
+        for product in products:
+            self.products_dialog.choose_table_line_by_text(product)
+        self.products_dialog.click_select_button()
+        self.some_wait()
+
+    def should_be_product_in_table_by_name(self, name):
+        self.switch_tab_by_name('Продукты')
+        self.products_table.should_be_dialog_cell_with_name(name)
+
+    def delete_product_by_name(self, name):
+        self.switch_tab_by_name('Продукты')
+        self.products_table.click_to_table_dialog_cell_by_text(name)
+        self.products_toolbar.click_delete_button()
+        self.some_wait()
+
+    def should_be_not_product_in_table_by_name(self, name):
+        self.switch_tab_by_name('Продукты')
+        self.products_table.should_be_not_dialog_cell_with_name(name)
     # endregion
 
     # region Лаборатории
+    def add_labs_by_names(self, *labs):
+        self.switch_tab_by_name('Лаборатории')
+        self.labs_toolbar.click_add_button()
+        self.some_wait()
+        for lab in labs:
+            self.labs_dialog.choose_table_line_by_text(lab)
+        self.labs_dialog.click_select_button()
+        self.some_wait()
+
+    def should_be_lab_in_table_by_name(self, name):
+        self.switch_tab_by_name('Лаборатории')
+        self.labs_table.should_be_dialog_cell_with_name(name)
+
+    def delete_lab_by_name(self, name):
+        self.switch_tab_by_name('Лаборатории')
+        self.labs_table.click_to_table_dialog_cell_by_text(name)
+        self.labs_toolbar.click_delete_button()
+        self.some_wait()
+
+    def should_be_not_lab_in_table_by_name(self, name):
+        self.switch_tab_by_name('Лаборатории')
+        self.labs_table.should_be_not_dialog_cell_with_name(name)
     # endregion
 
     # region Контексты использования
@@ -204,4 +297,26 @@ class MethodsDialog(BP):
     # endregion
 
     # region Сборники
+    def add_collections_by_names(self, *collections):
+        self.switch_tab_by_name('Сборники')
+        self.collections_toolbar.click_add_button()
+        self.some_wait()
+        for collection in collections:
+            self.collections_dialog.choose_table_line_by_text(collection)
+        self.collections_dialog.click_select_button()
+        self.some_wait()
+
+    def should_be_collection_in_table_by_name(self, name):
+        self.switch_tab_by_name('Сборники')
+        self.collections_table.should_be_dialog_cell_with_name(name)
+
+    def delete_collection_by_name(self, name):
+        self.switch_tab_by_name('Сборники')
+        self.collections_table.click_to_table_dialog_cell_by_text(name)
+        self.collections_toolbar.click_delete_button()
+        self.some_wait()
+
+    def should_be_not_collection_in_table_by_name(self, name):
+        self.switch_tab_by_name('Сборники')
+        self.collections_table.should_be_not_dialog_cell_with_name(name)
     # endregion
