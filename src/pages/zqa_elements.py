@@ -6,7 +6,9 @@ from src.locators.locators_elements import ZQADialogLocators as Dialog, \
     ZQAContentContainerLocators as Content, \
     ZQACalendarLocators as Calendar, \
     ZQADropDownLocators as Drop, \
-    ZQAConfirmDialogLocators as Confirm
+    ZQAConfirmDialogLocators as Confirm, \
+    ZQAAddDialogLocators as Add, \
+    ZQACodeEditorLocators as Code
 
 
 class ZQAElement:
@@ -57,80 +59,120 @@ class ZQADialog(ZQAElement):
 class ZQAToolbar(ZQAElement):
     def __init__(self, entry_locator, bp):
         super().__init__(entry_locator, bp)
-        self.filter_button_locator = (Tlbr.FILTER_BUTTON[0], self.entry_locator + Tlbr.FILTER_BUTTON[1])
-        self.add_button_locator = (Tlbr.ADD_BUTTON[0], self.entry_locator + Tlbr.ADD_BUTTON[1])
-        self.edit_button_locator = (Tlbr.EDIT_BUTTON[0], self.entry_locator + Tlbr.EDIT_BUTTON[1])
-        self.copy_button_locator = (Tlbr.COPY_BUTTON[0], self.entry_locator + Tlbr.COPY_BUTTON[1])
-        self.delete_button_locator = (Tlbr.DELETE_BUTTON[0], self.entry_locator + Tlbr.DELETE_BUTTON[1])
-        self.search_button_locator = (Tlbr.SEARCH_BUTTON[0], self.entry_locator + Tlbr.SEARCH_BUTTON[1])
-        self.refresh_button_locator = (Tlbr.REFRESH_BUTTON[0], self.entry_locator + Tlbr.REFRESH_BUTTON[1])
-        self.settings_button_locator = (Tlbr.SETTINGS_BUTTON[0], self.entry_locator + Tlbr.SETTINGS_BUTTON[1])
-        self.search_input_locator = (Tlbr.SEARCH_INPUT[0], self.entry_locator + Tlbr.SEARCH_INPUT[1])
+        self.filter_button = (Tlbr.FILTER_BUTTON[0], self.entry_locator + Tlbr.FILTER_BUTTON[1])
+        self.add_button = (Tlbr.ADD_BUTTON[0], self.entry_locator + Tlbr.ADD_BUTTON[1])
+        self.edit_button = (Tlbr.EDIT_BUTTON[0], self.entry_locator + Tlbr.EDIT_BUTTON[1])
+        self.copy_button = (Tlbr.COPY_BUTTON[0], self.entry_locator + Tlbr.COPY_BUTTON[1])
+        self.diapason_button = (Tlbr.DIAPASON_BUTTON[0], self.entry_locator + Tlbr.DIAPASON_BUTTON[1])
+        self.delete_button = (Tlbr.DELETE_BUTTON[0], self.entry_locator + Tlbr.DELETE_BUTTON[1])
+        self.search_button = (Tlbr.SEARCH_BUTTON[0], self.entry_locator + Tlbr.SEARCH_BUTTON[1])
+        self.refresh_button = (Tlbr.REFRESH_BUTTON[0], self.entry_locator + Tlbr.REFRESH_BUTTON[1])
+        self.settings_button = (Tlbr.SETTINGS_BUTTON[0], self.entry_locator + Tlbr.SETTINGS_BUTTON[1])
+        self.search_input = (Tlbr.SEARCH_INPUT[0], self.entry_locator + Tlbr.SEARCH_INPUT[1])
 
     def click_soft_filter_button(self):
         """
         Клик по по кнопке Фильтр
         """
-        self.bp.click_to_element(*self.filter_button_locator)
+        self.bp.click_to_element(*self.filter_button)
 
     def click_add_button(self):
         """
         Клик по кнопке Создать
         """
-        self.bp.click_to_element(*self.add_button_locator)
+        self.bp.click_to_element(*self.add_button)
 
     def click_edit_button(self):
         """
         Клик по кнопке Редактировать
         """
-        self.bp.click_to_element(*self.edit_button_locator)
+        self.bp.click_to_element(*self.edit_button)
 
     def click_copy_button(self):
         """
         Клик по кнопке Копировать
         """
-        self.bp.click_to_element(*self.copy_button_locator)
+        self.bp.click_to_element(*self.copy_button)
+
+    def click_diapason_button(self):
+        """
+        Клик по кнопке Диапазоны
+        """
+        self.bp.click_to_element(*self.diapason_button)
 
     def click_delete_button(self):
         """
         Клик по кнопке Удалить
         """
-        self.bp.click_to_element(*self.delete_button_locator)
+        self.bp.click_to_element(*self.delete_button)
 
     def click_search_button(self):
         """
         Клик по кнопке Поиск
         """
-        self.bp.click_to_element(*self.search_button_locator)
+        self.bp.click_to_element(*self.search_button)
 
     def click_refresh_button(self):
         """
         Клик по кнопке Обновить
         """
-        self.bp.click_to_element(*self.refresh_button_locator)
+        self.bp.click_to_element(*self.refresh_button)
 
     def click_settings_button(self):
         """
         Клик по кнопке Настройки
         """
-        self.bp.click_to_element(*self.settings_button_locator)
+        self.bp.click_to_element(*self.settings_button)
 
     def click_search_input(self):
         """
         Клик по полю ввода для поиска
         """
-        self.bp.click_to_element(*self.search_input_locator)
+        self.bp.click_to_element(*self.search_input)
 
     def input_search_text(self, text):
         """
         Ввод текста
         :param text: текст
         """
-        self.bp.input_text(*self.search_input_locator, text)
+        self.bp.input_text(*self.search_input, text)
 
     def clear_search_text(self):
         """ Очистить текст """
-        self.bp.clear_text(*self.search_input_locator)
+        self.bp.clear_text(*self.search_input)
+
+
+class ZQAAddDialog(ZQAElement):
+    def __init__(self, entry_locator, bp):
+        super().__init__(entry_locator, bp)
+        self.header = (Add.HEADER[0], self.entry_locator + Add.HEADER[1])
+        self.toolbar = (Add.TOOLBAR[0], self.entry_locator + Add.TOOLBAR[1])
+        self.table = (Add.TABLE[0], self.entry_locator + Add.TABLE[1])
+        self.close_button = (Add.CLOSE_BUTTON[0], self.entry_locator + Add.CLOSE_BUTTON[1])
+        self.select_button = (Add.SELECT_BUTTON[0], self.entry_locator + Add.SELECT_BUTTON[1])
+
+    def should_be_header_text(self, text):
+        _text = self.bp.get_element_text(*self.header)
+        assert _text == text
+
+    def click_close_button(self):
+        self.bp.click_to_element(*self.close_button)
+
+    def click_select_button(self):
+        self.bp.click_to_element(*self.select_button)
+
+    def choose_table_line_by_text(self, text):
+        table = ZQATable(self.table, self.bp)
+        table.choose_table_line_by_cell_text1(text)
+
+    def input_search_text(self, text):
+        toolbar = ZQAToolbar(self.toolbar, self.bp)
+        toolbar.input_search_text(text)
+
+
+class ZQACodeEditor(ZQAElement):
+    def __init__(self, entry_locator, bp):
+        super().__init__(entry_locator, bp)
 
 
 class ZQATable(ZQAElement):
@@ -147,6 +189,25 @@ class ZQATable(ZQAElement):
         """
         column = self.bp.add_text_to_locator(*self.column_locator, name)
         self.bp.click_to_element(*column)
+
+    def click_to_cell_by_coordinates(self, tr, td):
+        """
+        Клик по ячейке таблице с заданными коордитанами
+        :param tr: № строки
+        :param td: № столбца
+        """
+        cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]")
+        self.bp.click_to_element(cell)
+
+    def input_text_to_table_cell_by_coordinates(self, tr, td, text):
+        """
+        Ввод текста в ячейку с заданными координатами
+        :param tr: № строки
+        :param td: № столбца
+        :param text: текст
+        """
+        cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]//input")
+        self.bp.input_text(*cell, text)
 
     def click_to_table_line_by_cell_text(self, text):
         """
@@ -170,6 +231,16 @@ class ZQATable(ZQAElement):
         :param text: текст в ячейке
         """
         cell_by_text = self.bp.add_strip_text_to_locator(*self.cell_locator, text)
+        table_line = (cell_by_text[0], cell_by_text[1] + "/../..")
+        if "active" not in self.bp.get_element_attribute(*table_line, "class"):
+            self.bp.click_to_element(*cell_by_text)
+
+    def choose_table_line_by_cell_text1(self, text):
+        """
+        Выбор строки по тексту ячейки внутри, с проверкой
+        :param text: текст в ячейке c пробелами
+        """
+        cell_by_text = self.bp.add_text_to_locator(*self.cell_locator, text)
         table_line = (cell_by_text[0], cell_by_text[1] + "/../..")
         if "active" not in self.bp.get_element_attribute(*table_line, "class"):
             self.bp.click_to_element(*cell_by_text)
@@ -217,6 +288,10 @@ class ZQATab(ZQAElement):
         tree_tab_active_locator = (tree_tab_locator[0], tree_tab_locator[1] + "/../..")
         assert self.bp.get_element_attribute(*tree_tab_active_locator, 'class') \
                == 'menu-item-link active ng-star-inserted', 'Элемент дерева не выделен'
+
+    def should_be_tree_tab_by_name(self, name):
+        tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
+        assert self.bp.is_element_present(*tree_tab_locator), 'Такого эелемента в дереве не найдено'
 
 
 class ZQADatePicker(ZQAElement):
@@ -344,8 +419,13 @@ class ZQADropDown(ZQAElement):
 
     def select_menu_line_by_text(self, text):
         menu_line = self.bp.add_text_to_locator(*Drop.MENU_LINE, text)
-        self.bp.click_to_element(menu_line)
+        self.bp.click_to_element(*menu_line)
         self.bp.some_wait()
+
+    def click_mat_menu_button_by_text(self, text):
+        button = self.bp.add_text_to_locator(*Drop.MAT_MENU_BUTTON, text)
+        self.bp.click_to_element(*button)
+        self.bp.some_wait(timeout=1)
 
 
 class ZQAConfirmDialog(ZQAElement):
@@ -357,6 +437,7 @@ class ZQAConfirmDialog(ZQAElement):
 
     def click_delete_button(self):
         self.bp.click_to_element(*Confirm.DIALOG_DELETE_BUTTON)
+        self.bp.some_wait(timeout=1)
 
     def click_cancel_button(self):
         self.bp.click_to_element(*Confirm.DIALOG_CANCEL_BUTTON)

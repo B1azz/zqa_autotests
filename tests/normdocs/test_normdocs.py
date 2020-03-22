@@ -23,6 +23,7 @@ class TestTypedocs:
         self.main.hide_or_show_typedocs_tree()
         self.main.should_be_typedocs_tree_is_hided()
 
+
 @pytest.mark.ui
 @pytest.mark.normdocs
 class TestCreateAndEditNormDocs:
@@ -74,7 +75,7 @@ class TestCreateAndEditNormDocs:
 
     def test_typedoc_valid(self):
         """Проверка, что НД в нужном типе документа"""
-        self.main.choose_typedoc('Методики испытаний')
+        self.main.choose_typedoc_by_name('Методики испытаний')
         self.main.should_be_this_normdoc_in_table('Тест Селениум')
 
     def test_add_content_in_normdoc_without_save(self):
@@ -138,7 +139,7 @@ class TestAutoTypeDoc:
         self.main = NormDocsMainPage(browser, browser.current_url)
         self.dialog = NormDocsDialog(browser, browser.current_url)
 
-        self.main.choose_typedoc('Методики испытаний')
+        self.main.choose_typedoc_by_name('Методики испытаний')
         self.main.click_add_button()
 
     def test_typedoc_is_autocomplete(self):

@@ -7,8 +7,8 @@ from src.pages.zqa_elements import ZQAToolbar, ZQATable, ZQATab, \
 
 
 class NormDocsMainPage(BP):
-    def __init__(self, browser, url, timeout=10):
-        super().__init__(browser, url, timeout=10)
+    def __init__(self, browser, url):
+        super().__init__(browser, url)
         self.BP = BP(browser, browser.current_url)
         self.typedocs_tooolbar = ZQAToolbar(Main.TYPEDOCS_TOOLBAR[1], self.BP)
         self.typedocs_tree = ZQATab(Main.TYPEDOCS_TREE[1], self.BP)
@@ -20,7 +20,7 @@ class NormDocsMainPage(BP):
         self.confirm_dialog = ZQAConfirmDialog('', self.BP)
     # region Типы документов
 
-    def choose_typedoc(self, text):
+    def choose_typedoc_by_name(self, text):
         self.typedocs_tree.click_to_tree_tab_by_name(text)
         self.some_wait(timeout=1)
 
@@ -51,10 +51,12 @@ class NormDocsMainPage(BP):
     def edit_this_normdoc(self, name):
         self.normdocs_table.choose_table_line_by_cell_text(name)
         self.normdocs_toolbar.click_edit_button()
+        self.some_wait(timeout=1)
 
     def copy_this_normdoc(self, name):
         self.normdocs_table.choose_table_line_by_cell_text(name)
         self.normdocs_toolbar.click_copy_button()
+        self.some_wait(timeout=1)
 
     def delete_this_normdoc(self, name):
         self.normdocs_table.choose_table_line_by_cell_text(name)
@@ -71,6 +73,7 @@ class NormDocsMainPage(BP):
         self.normdocs_toolbar.click_search_button()
         self.normdocs_toolbar.click_search_input()
         self.normdocs_toolbar.input_search_text(name)
+        self.some_wait()
 
     def should_be_this_normdoc_in_table(self, normdoc_name):
         self.normdocs_table.should_be_line_with_strip_name(normdoc_name)
@@ -82,8 +85,8 @@ class NormDocsMainPage(BP):
 
 
 class NormDocsDialog(BP):
-    def __init__(self, browser, url, timeout=10):
-        super().__init__(browser, url, timeout=10)
+    def __init__(self, browser, url):
+        super().__init__(browser, url)
         self.BP = BP(browser, browser.current_url)
         self.dialog = ZQADialog(Dialog.DIALOG[1], self.BP)
         self.dialog_tabs = ZQATab(Dialog.DIALOG_TREE[1], self.BP)

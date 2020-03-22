@@ -14,11 +14,48 @@ class ZQAToolbarLocators:
     ADD_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'add-plus']")
     EDIT_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'editor-mode']")
     COPY_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'vectors-arrange-below']")
+    DIAPASON_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'arrows-arrow-expand-horizontal']")
     DELETE_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'delete']")
     SEARCH_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'sort-zoom-in']")
     SEARCH_INPUT = (By.XPATH, "//input")
     REFRESH_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'arrows-cached-1']")
     SETTINGS_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'settings']")
+
+
+class ZQAAddDialogLocators:
+    HEADER = (By.XPATH, "//div[@class ='dialog__toolbar__title']/div")
+    TOOLBAR = (By.XPATH, "//div[@class ='dialog__content__search']")
+    TABLE = (By.XPATH, "//table")
+    CLOSE_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass='cancel-close']")
+    SELECT_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='success']")
+
+
+class ZQATestDialogLocators:
+    CLOSE_BUTTON = ()
+    CANCEL_BUTTON = ()
+    SAVE_BUTTON = ()
+    HEADER = ()
+    NAME = ()
+    CODE = ()
+    OFFICIAL_NAME = ()
+    DESCRIPTION = ()
+
+    TABS = ()
+    COMMON_TAB = ()
+    ANALYTICS_TABS = ()
+
+    UNIT_CLASSES = ()
+    UNITS = ()
+    UNIT_DIGITS = ()
+    DIGITAL_SETS = ()
+
+    ANALYTICS_TABLE = (By.XPATH, "//div[@class='dialog__content__form__types ng-star-inserted']//table")
+
+
+
+
+class ZQACodeEditorLocators:
+    pass
 
 
 class ZQATableLocators:
@@ -27,6 +64,8 @@ class ZQATableLocators:
     BLINE = (By.XPATH, "//tbody//tr")
     HLINE = (By.XPATH, "//thead//tr")
     FLINE = (By.XPATH, "//tfoot//tr")
+
+    CELL_BUTTON = (By.XPATH, f"{BLINE}//td//zyfra-icon")
 
 
 class ZQADatePickerLocators:
@@ -60,6 +99,9 @@ class ZQADropDownLocators:
 
     MENU = (By.XPATH, "//zyfra-menu")
     MENU_LINE = (By.XPATH, f"{MENU[1]}//ul[@class='zyfra-menu-time']//li")
+
+    MAT_MENU = (By.XPATH, "//div[@class='mat-menu-content']")
+    MAT_MENU_BUTTON = (By.XPATH, f"{MAT_MENU}//button")
 
 
 class ZQATabLocators:
