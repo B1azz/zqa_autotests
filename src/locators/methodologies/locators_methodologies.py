@@ -6,7 +6,7 @@ class MethodologiesMainLocators:
     COLLECTIONS_REGION = (By.XPATH, f"{METHODOLOGIES[1]}//dp-split-area[1]")
 
     COLLECTIONS_TOOLBAR = (By.XPATH, f"{METHODOLOGIES[1]}//lims-methodologies-sidebar/div")
-    COLLECTIONS_TREE = (By.XPATH, f"{METHODOLOGIES[1]}////lims-methodologies-sidebar/lims-tree")
+    COLLECTIONS_TREE = (By.XPATH, f"{METHODOLOGIES[1]}//lims-methodologies-sidebar/lims-tree")
     METHODS_TOOLBAR = (By.XPATH, f"{METHODOLOGIES[1]}//lims-toolbar")
     METHODS_TABLE = (By.XPATH, f"{METHODOLOGIES[1]}//table")
 

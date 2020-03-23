@@ -43,7 +43,7 @@ class ZQADialog(ZQAElement):
         self.bp.some_wait()
 
     def click_checker(self):
-        self.bp.click_to_element(*self.cancel_button)
+        self.bp.click_to_element(*self.checker)
         self.bp.some_wait()
 
     def should_be_checker_state(self, state: bool):
@@ -161,11 +161,11 @@ class ZQAAddDialog(ZQAElement):
         self.bp.click_to_element(*self.select_button)
 
     def choose_table_line_by_text(self, text):
-        table = ZQATable(self.table, self.bp)
+        table = ZQATable(self.table[1], self.bp)
         table.click_to_table_dialog_cell_by_text(text)
 
     def input_search_text(self, text):
-        toolbar = ZQAToolbar(self.toolbar, self.bp)
+        toolbar = ZQAToolbar(self.toolbar[1], self.bp)
         toolbar.input_search_text(text)
 
 
@@ -274,6 +274,7 @@ class ZQATestDialog(ZQAElement):
         self.bp.clear_input_text(*self.unit_digits, digit)
 
     def input_test_analog_units(self, unit_class, unit, digit):
+        self.go_to_common_tab()
         if unit_class != '':
             self.choose_unit_class_by_name(unit_class)
         if unit != '':
@@ -282,6 +283,7 @@ class ZQATestDialog(ZQAElement):
             self.input_unit_digit(digit)
 
     def should_be_analog_units(self, unit_class, unit, digit):
+        self.go_to_common_tab()
         _units_class = self.bp.get_element_attribute(*self.unit_classes_input, 'value')
         _unit = self.bp.get_element_attribute(*self.units_input, 'value')
         _digit = self.bp.get_element_attribute(*self.unit_digits, 'value')
@@ -289,18 +291,21 @@ class ZQATestDialog(ZQAElement):
         assert _unit == unit
         assert _digit == digit
 
-    def choose_digital_set_by_name(self, name):
+    def choose_discrete_set_by_name(self, name):
+        self.go_to_common_tab()
         self.bp.click_to_element(*self.digital_sets)
         self.bp.some_wait()
         self.drop_down.select_option_by_text(name)
 
     def should_be_digital_set(self, name):
+        self.go_to_common_tab()
         _name = self.bp.get_element_attribute(*self.digital_sets_input, 'value')
         assert _name == name
 
     def add_line_to_analytic_table(self, analytic_type, start, additional, max):
+        self.go_to_analytic_tab()
         self.table.click_to_table_column_by_number(5)
-        index = self.bp.get_count(self.table.table_line_locator)
+        index = self.bp.get_count(*self.table.table_line_locator)
         if analytic_type != '':
             self.table.click_to_cell_by_coordinates(index, 1)
             self.bp.some_wait()
@@ -313,6 +318,7 @@ class ZQATestDialog(ZQAElement):
             self.table.input_text_to_table_cell_by_coordinates(index, 4, max)
 
     def edit_line_to_analytic_table(self, tr, analytic_type, start, additional, max):
+        self.go_to_analytic_tab()
         if analytic_type != '':
             self.table.click_to_cell_by_coordinates(tr, 1)
             self.bp.some_wait()
@@ -325,8 +331,14 @@ class ZQATestDialog(ZQAElement):
             self.table.input_text_to_table_cell_by_coordinates(tr, 4, max)
 
     def delete_line_to_analytic_table(self, tr):
+        self.go_to_analytic_tab()
         self.table.click_to_cell_by_coordinates(tr, 5)
         self.bp.some_wait()
+
+    def should_be_lines_to_analytic_table(self, count):
+        self.go_to_analytic_tab()
+        _count = self.bp.get_count(*self.table.table_line_locator)
+        assert _count == count
 
 
 class ZQACodeEditor(ZQAElement):
@@ -357,7 +369,7 @@ class ZQATable(ZQAElement):
         self.dialog_cell = (Tbl.DIALOG_CELL[0], self.entry_locator + Tbl.DIALOG_CELL[1])
 
     def click_to_table_dialog_cell_by_text(self, text):
-        cell = self.bp.add_index_to_locator(*self.dialog_cell, text)
+        cell = self.bp.add_text_to_locator(*self.dialog_cell, text)
         line = (cell[0], cell[1]+"/..")
         self.bp.click_to_element(*line)
 
@@ -376,6 +388,15 @@ class ZQATable(ZQAElement):
         """
         column = self.bp.add_index_to_locator(*self.column_locator, number)
         self.bp.click_to_element(*column)
+
+    def click_to_cell_input_by_coordinates(self, tr, td):
+        cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]//input")
+        self.bp.click_to_element(cell)
+
+    def should_be_in_cell_input_by_coordinates(self, tr, td, text):
+        cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]//input")
+        _text = self.bp.get_element_attribute(*cell, 'value')
+        assert _text == text
 
     def click_to_cell_by_coordinates(self, tr, td):
         """
@@ -447,7 +468,7 @@ class ZQATable(ZQAElement):
 
     def should_be_not_dialog_cell_with_name(self, name):
         cell = self.bp.add_index_to_locator(*self.dialog_cell, name)
-        self.bp.is_not_element_present(*cell)
+        self.bp.is_not_element_present(*cell, timeout=1.5)
 
     def should_be_line_with_name(self, name):
         cell = self.bp.add_text_to_locator(*self.cell_locator, name)
@@ -486,7 +507,12 @@ class ZQATab(ZQAElement):
 
     def should_be_tree_tab_by_name(self, name):
         tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
-        assert self.bp.is_element_present(*tree_tab_locator), 'Такого эелемента в дереве не найдено'
+        assert self.bp.is_element_present(*tree_tab_locator), 'Такого элемента в дереве не найдено'
+
+    def should_be_not_tree_tab_by_name(self, name):
+        tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
+        assert self.bp.is_not_element_present(*tree_tab_locator), 'Такой элемент все еще в дереве'
+
 
 
 class ZQADatePicker(ZQAElement):

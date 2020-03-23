@@ -43,6 +43,9 @@ class MethodologiesMainPage(BP):
     def should_be_collection_by_name_in_tree(self, name):
         self.collection_tree.should_be_tree_tab_by_name(name)
 
+    def should_be_not_collection_by_name_in_tree(self, name):
+        self.collection_tree.should_be_not_tree_tab_by_name(name)
+
     def click_add_collection(self):
         self.collection_toolbar.click_add_button()
         self.some_wait(timeout=1)
@@ -88,6 +91,8 @@ class MethodologiesMainPage(BP):
     def delete_method_by_name(self, name):
         self.methods_table.choose_table_line_by_cell_text(name)
         self.methods_toolbar.click_delete_button()
+        self.some_wait()
+        self.confirm_dialog.click_delete_button()
         self.some_wait(timeout=1)
 
     def should_be_this_method_in_table(self, method_name):
@@ -109,7 +114,7 @@ class CollectionsDialog(BP):
 
     def click_save_button(self):
         self.dialog.click_save_button()
-        self.some_wait(timeout=1)
+        self.some_wait(timeout=2)
 
     def click_close_button(self):
         self.dialog.click_close_button()
@@ -288,9 +293,121 @@ class MethodsDialog(BP):
     # endregion
 
     # region Контексты использования
+    def add_context_to_table(self, lab, eq_type, product_group, description):
+        self.switch_tab_by_name('Контексты использования')
+        self.contexts_toolbar.click_add_button()
+        index = self.get_count(*self.contexts_table.table_line_locator)
+        if lab != '':
+            self.contexts_table.click_to_cell_input_by_coordinates(index, 1)
+            self.some_wait()
+            self.drop_down.select_option_by_text(lab)
+        if eq_type != '':
+            self.contexts_table.click_to_cell_input_by_coordinates(index, 2)
+            self.some_wait()
+            self.drop_down.select_option_by_text(eq_type)
+        if product_group != '':
+            self.contexts_table.click_to_cell_input_by_coordinates(index, 3)
+            self.some_wait()
+            self.drop_down.select_option_by_text(product_group)
+        if description != '':
+            self.contexts_table.click_to_cell_input_by_coordinates(index, 4)
+            self.contexts_table.input_text_to_table_cell_by_coordinates(index, 4, description)
+
+    def should_be_context_to_table(self, index, lab, eq_type, product_group, description):
+        self.switch_tab_by_name('Контексты использования')
+        self.contexts_table.should_be_in_cell_input_by_coordinates(index, 1, lab)
+        self.contexts_table.should_be_in_cell_input_by_coordinates(index, 2, eq_type)
+        self.contexts_table.should_be_in_cell_input_by_coordinates(index, 3, product_group)
+        self.contexts_table.should_be_in_cell_input_by_coordinates(index, 4, description)
+
+    def delete_context_to_table(self, index):
+        self.switch_tab_by_name('Контексты использования')
+        self.contexts_table.click_to_table_line_by_number(index)
+        self.contexts_toolbar.click_delete_button()
+        self.some_wait()
+
+    def should_be_lines_in_context_table(self, count):
+        _count = self.get_count(*self.contexts_table.table_line_locator)
+        assert _count == count, 'Неправильное количество контекстов'
     # endregion
 
     # region Показатели
+    def click_add_analog_test(self):
+        self.tests_toolbar.click_add_button()
+        self.some_wait()
+        self.drop_down.click_mat_menu_button_by_text('Новый аналоговый показатель')
+
+    def click_add_discrete_test(self):
+        self.tests_toolbar.click_add_button()
+        self.some_wait()
+        self.drop_down.click_mat_menu_button_by_text('Новый дискретный показатель')
+
+    def click_edit_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_toolbar.click_edit_button()
+
+    def click_copy_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_toolbar.click_copy_button()
+
+    def click_diapason_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_toolbar.click_diapason_button()
+
+    def delete_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_toolbar.click_delete_button()
+
+    def should_be_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.should_be_line_with_name(name)
+
+    def input_analog_inputs(self, name, code, official_name, description):
+        self.tests_analog_dialog.input_test_inputs(name, code, official_name, description)
+
+    def should_be_analog_inputs(self, name, code, official_name, description):
+        self.tests_analog_dialog.should_be_test_inputs(name, code, official_name, description)
+
+    def input_discrete_inputs(self, name, code, official_name, description):
+        self.tests_discrete_dialog.input_test_inputs(name, code, official_name, description)
+
+    def should_be_discrete_inputs(self, name, code, official_name, description):
+        self.tests_discrete_dialog.should_be_test_inputs(name, code, official_name, description)
+
+    def input_analog_units(self, unit_class, unit, digit):
+        self.tests_analog_dialog.input_test_analog_units(unit_class, unit, digit)
+
+    def should_be_analog_units(self, unit_class, unit, digit):
+        self.tests_analog_dialog.should_be_analog_units(unit_class, unit, digit)
+
+    def choose_discrete_set(self, name):
+        self.tests_discrete_dialog.choose_discrete_set_by_name(name)
+
+    def should_be_discrete_set(self, name):
+        self.tests_discrete_dialog.should_be_digital_set(name)
+
+    def add_analytic_to_analog_test(self, analytic_type, start, additional, max):
+        self.tests_analog_dialog.add_line_to_analytic_table(analytic_type, start, additional, max)
+
+    def should_be_analytic_lines_to_analog_test(self, count):
+        self.tests_analog_dialog.should_be_lines_to_analytic_table(count)
+
+    def add_analytic_to_discrete_test(self, analytic_type, start, additional, max):
+        self.tests_discrete_dialog.add_line_to_analytic_table(analytic_type, start, additional, max)
+
+    def should_be_analytic_lines_to_discrete_test(self, count):
+        self.tests_discrete_dialog.should_be_lines_to_analytic_table(count)
+
+    def delete_analytic_to_analog_test(self, index):
+        self.tests_analog_dialog.delete_line_to_analytic_table(index)
+
+    def delete_analytic_to_discrete_test(self, index):
+        self.tests_discrete_dialog.delete_line_to_analytic_table(index)
+
     # endregion
 
     # region Расчеты
