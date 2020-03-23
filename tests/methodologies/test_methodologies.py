@@ -1,5 +1,3 @@
-import time
-
 import pytest
 
 from src.pages.methodologies.methodologies_main_page import MethodologiesMainPage, CollectionsDialog, MethodsDialog
