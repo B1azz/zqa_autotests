@@ -516,6 +516,7 @@ class ZQATable(ZQAElement):
         expand = (cell[0], cell[1] + "/../../../zyfra-icon")
         self.bp.click_to_element(*expand)
 
+
 class ZQATab(ZQAElement):
     def __init__(self, entry_locator, bp):
         super().__init__(entry_locator, bp)

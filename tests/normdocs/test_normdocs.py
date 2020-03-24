@@ -16,7 +16,8 @@ class TestTypedocs:
     def test_search_typedoc(self):
         """Найти тип НД"""
         self.main.search_typedoc_by_drop_down('методики испытаний')
-        self.main.should_be_normdoc_is_selected('Методики испытаний')
+        self.main.should_be_typedoc_by_name_in_tree('Методики испытаний')
+        self.main.should_be_not_typedoc_by_name_in_tree('Все')
 
     def test_hide_show_typedocs(self):
         """Скрыть дерево типов НД"""

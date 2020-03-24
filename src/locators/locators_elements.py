@@ -74,7 +74,6 @@ class ZQATableLocators:
     FLINE = (By.XPATH, "//tfoot//tr")
 
     CELL_BUTTON = (By.XPATH, f"{BLINE[1]}//td//zyfra-icon")
-    CELL_EXPAND = (By.XPATH, f"{BLINE[1]}//")
     CELL_CHECKER = (By.XPATH, f"{BLINE[1]}//label//span")
 
 

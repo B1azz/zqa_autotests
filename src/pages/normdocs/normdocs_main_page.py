@@ -24,8 +24,14 @@ class NormDocsMainPage(BP):
         self.typedocs_tree.click_to_tree_tab_by_name(text)
         self.some_wait(timeout=1)
 
-    def should_be_normdoc_is_selected(self, text):
+    def should_be_typedoc_is_selected(self, text):
         self.typedocs_tree.should_be_tree_tab_by_name_is_selected(text)
+
+    def should_be_typedoc_by_name_in_tree(self, name):
+        self.typedocs_tree.should_be_tree_tab_by_name(name)
+
+    def should_be_not_typedoc_by_name_in_tree(self, name):
+        self.typedocs_tree.should_be_not_tree_tab_by_name(name)
 
     def search_typedoc_by_drop_down(self, text):
         self.typedocs_tooolbar.click_search_button()
