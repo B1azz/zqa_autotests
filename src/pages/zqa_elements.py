@@ -231,6 +231,9 @@ class ZQATestDialog(ZQAElement):
     def input_test_description(self, description):
         self.bp.clear_input_text(*self.description, description)
 
+    def click_test_name_select(self):
+        self.bp.click_to_element(*self.name_select)
+
     def input_test_inputs(self, name, code, official_name, description):
         if name != '':
             self.input_test_name(name)
@@ -240,6 +243,12 @@ class ZQATestDialog(ZQAElement):
             self.input_test_official_name(official_name)
         if description != '':
             self.input_test_description(description)
+
+    def choose_test_by_name(self, name):
+        self.click_test_name_select()
+        self.bp.some_wait()
+        self.drop_down.select_option_by_text(name)
+        self.bp.some_wait()
 
     def should_be_test_inputs(self, name, code, official_name, description):
         _name = self.bp.get_element_attribute(*self.name_input, 'value')
@@ -391,7 +400,7 @@ class ZQATable(ZQAElement):
 
     def click_to_cell_input_by_coordinates(self, tr, td):
         cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]//input")
-        self.bp.click_to_element(cell)
+        self.bp.click_to_element(*cell)
 
     def should_be_in_cell_input_by_coordinates(self, tr, td, text):
         cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]//input")
@@ -405,7 +414,7 @@ class ZQATable(ZQAElement):
         :param td: № столбца
         """
         cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]")
-        self.bp.click_to_element(cell)
+        self.bp.click_to_element(*cell)
 
     def input_text_to_table_cell_by_coordinates(self, tr, td, text):
         """
@@ -415,7 +424,7 @@ class ZQATable(ZQAElement):
         :param text: текст
         """
         cell = (self.table_line_locator[0], f"{self.table_line_locator[1]}[{tr}]//td[{td}]//input")
-        self.bp.input_text(*cell, text)
+        self.bp.clear_input_text(*cell, text)
 
     def click_to_table_line_by_cell_text(self, text):
         """
@@ -644,7 +653,7 @@ class ZQADropDown(ZQAElement):
         self.bp.some_wait()
 
     def click_mat_menu_button_by_text(self, text):
-        button = self.bp.add_text_to_locator(*Drop.MAT_MENU_BUTTON, text)
+        button = self.bp.add_strip_text_to_locator(*Drop.MAT_MENU_BUTTON, text)
         self.bp.click_to_element(*button)
         self.bp.some_wait(timeout=1)
 

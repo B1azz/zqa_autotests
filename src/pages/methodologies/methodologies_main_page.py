@@ -333,38 +333,50 @@ class MethodsDialog(BP):
 
     # region Показатели
     def click_add_analog_test(self):
+        self.switch_tab_by_name('Показатели')
         self.tests_toolbar.click_add_button()
-        self.some_wait()
+        self.some_wait(timeout=1)
         self.drop_down.click_mat_menu_button_by_text('Новый аналоговый показатель')
 
     def click_add_discrete_test(self):
+        self.switch_tab_by_name('Показатели')
         self.tests_toolbar.click_add_button()
         self.some_wait()
         self.drop_down.click_mat_menu_button_by_text('Новый дискретный показатель')
 
     def click_edit_test_by_name(self, name):
         self.switch_tab_by_name('Показатели')
-        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_table.click_to_table_dialog_cell_by_text(name)
         self.tests_toolbar.click_edit_button()
 
     def click_copy_test_by_name(self, name):
         self.switch_tab_by_name('Показатели')
-        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_table.click_to_table_dialog_cell_by_text(name)
         self.tests_toolbar.click_copy_button()
 
     def click_diapason_test_by_name(self, name):
         self.switch_tab_by_name('Показатели')
-        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_table.click_to_table_dialog_cell_by_text(name)
         self.tests_toolbar.click_diapason_button()
 
     def delete_test_by_name(self, name):
         self.switch_tab_by_name('Показатели')
-        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_table.click_to_table_dialog_cell_by_text(name)
         self.tests_toolbar.click_delete_button()
 
     def should_be_test_by_name(self, name):
         self.switch_tab_by_name('Показатели')
-        self.tests_table.should_be_line_with_name(name)
+        self.tests_table.should_be_dialog_cell_with_name(name)
+
+    def should_be_not_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.should_be_not_dialog_cell_with_name(name)
+
+    def select_analog_by_name(self, name):
+        self.tests_analog_dialog.choose_test_by_name(name)
+
+    def select_discrete_by_name(self, name):
+        self.tests_discrete_dialog.choose_test_by_name(name)
 
     def input_analog_inputs(self, name, code, official_name, description):
         self.tests_analog_dialog.input_test_inputs(name, code, official_name, description)
@@ -407,6 +419,18 @@ class MethodsDialog(BP):
 
     def delete_analytic_to_discrete_test(self, index):
         self.tests_discrete_dialog.delete_line_to_analytic_table(index)
+
+    def click_save_analog_test(self):
+        self.tests_analog_dialog.click_save_button()
+
+    def click_close_analog_test(self):
+        self.tests_analog_dialog.click_close_button()
+
+    def click_save_discrete_test(self):
+        self.tests_discrete_dialog.click_save_button()
+
+    def click_close_discrete_test(self):
+        self.tests_discrete_dialog.click_close_button()
 
     # endregion
 

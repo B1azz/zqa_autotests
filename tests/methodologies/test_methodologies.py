@@ -153,6 +153,128 @@ class TestAddEditMethods:
         self.methods.should_be_not_collection_in_table_by_name('123')
         self.methods.click_close_button()
 
+    @pytest.mark.xfail(reason='Z10000018-1013')
+    def test_edit_contexts(self):
+        """Редактирование контекстов"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.add_context_to_table('НИИ', 'Все типы', 'Handcrafted Concrete Tuna', 'Первый контекст')
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.should_be_context_to_table(1, 'НИИ', 'Все типы', 'Handcrafted Concrete Tuna', 'Первый контекст')
+        self.methods.click_close_button()
+
+    def test_add_analog_test(self):
+        """Добавление аналогового показателя"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_add_analog_test()
+        self.methods.select_analog_by_name('аналог1')
+        self.methods.add_analytic_to_analog_test('Ходовой анализ', '1', '2', '3')
+        self.methods.click_save_analog_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_edit_test_by_name('аналог1')
+        self.methods.should_be_analog_inputs('аналог1', 'а1', 'аналог1', 'аналоговый показатель 1')
+        self.methods.should_be_analog_units('Количество', '', '0')
+        self.methods.should_be_analytic_lines_to_analog_test(1)
+        self.methods.click_close_analog_test()
+        self.methods.click_close_button()
+
+    def test_edit_analog_test(self):
+        """Изменение аналогового показателя"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_add_analog_test()
+        self.methods.select_analog_by_name('аналог1')
+        self.methods.click_save_analog_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_edit_test_by_name('аналог1')
+        self.methods.input_analog_units('Количество', '', '2')
+        self.methods.add_analytic_to_analog_test('Ходовой анализ', '1', '2', '3')
+        self.methods.add_analytic_to_analog_test('Анализ готовой продукции', '2', '3', '5')
+        self.methods.click_save_analog_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_edit_test_by_name('аналог1')
+        self.methods.should_be_analog_units('Количество', '', '2')
+        self.methods.should_be_analytic_lines_to_analog_test(2)
+        self.methods.click_close_analog_test()
+        self.methods.click_close_button()
+
+    def test_add_discrete_test(self):
+        """Добавление дискретного показателя"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_add_discrete_test()
+        self.methods.select_discrete_by_name('дискрет1')
+        self.methods.choose_discrete_set('Дискретный_набор_ЛИМС')
+        self.methods.add_analytic_to_discrete_test('Ходовой анализ', '1', '2', '3')
+        self.methods.click_save_discrete_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_edit_test_by_name('дискрет1')
+        self.methods.should_be_discrete_inputs('дискрет1', 'д1', 'дискрет1', 'дискретный показатель 1')
+        self.methods.should_be_discrete_set('Дискретный_набор_ЛИМС')
+        self.methods.should_be_analytic_lines_to_discrete_test(1)
+        self.methods.click_close_discrete_test()
+        self.methods.click_close_button()
+
+    def test_edit_discrete_test(self):
+        """Изменение дискретного показателя"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_add_discrete_test()
+        self.methods.select_discrete_by_name('дискрет1')
+        self.methods.choose_discrete_set('Дискретный_набор_ЛИМС')
+        self.methods.click_save_discrete_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_edit_test_by_name('дискрет1')
+        self.methods.choose_discrete_set('Объем колбы')
+        self.methods.add_analytic_to_discrete_test('Ходовой анализ', '1', '2', '3')
+        self.methods.add_analytic_to_discrete_test('Анализ готовой продукции', '2', '3', '5')
+        self.methods.click_save_discrete_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_edit_test_by_name('дискрет1')
+        self.methods.should_be_discrete_set('Объем колбы')
+        self.methods.should_be_analytic_lines_to_discrete_test(2)
+        self.methods.click_close_discrete_test()
+        self.methods.click_close_button()
+
+    def test_add_many_tests(self):
+        """Добавление нескольких показателей"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_add_analog_test()
+        self.methods.select_analog_by_name('аналог1')
+        self.methods.click_save_analog_test()
+        self.methods.click_add_discrete_test()
+        self.methods.select_discrete_by_name('дискрет1')
+        self.methods.choose_discrete_set('Дискретный_набор_ЛИМС')
+        self.methods.click_save_discrete_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.should_be_test_by_name('аналог1')
+        self.methods.should_be_test_by_name('дискрет1')
+        self.methods.click_close_button()
+
+    @pytest.mark.only
+    def test_delete_test(self):
+        """Добавление нескольких показателей"""
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.click_add_analog_test()
+        self.methods.select_analog_by_name('аналог1')
+        self.methods.click_save_analog_test()
+        self.methods.click_add_discrete_test()
+        self.methods.select_discrete_by_name('дискрет1')
+        self.methods.choose_discrete_set('Дискретный_набор_ЛИМС')
+        self.methods.click_save_discrete_test()
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.delete_test_by_name('аналог1')
+        self.methods.click_save_button()
+        self.main.edit_method_by_name('Селениум создание')
+        self.methods.should_be_not_test_by_name('аналог1')
+        self.methods.should_be_test_by_name('дискрет1')
+        self.methods.click_close_button()
+
 
 
 

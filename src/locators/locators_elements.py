@@ -36,23 +36,23 @@ class ZQATestDialogLocators:
     SAVE_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='success']")
     HEADER = (By.XPATH, "//div[@class ='dialog__toolbar__title']/div")
     DIALOG_INPUTS = (By.XPATH, "//div[@class='dialog__content__form__body']")
-    NAME_SELECT = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-select")
-    NAME_INPUT = (By.XPATH, f"{NAME_SELECT}//input")
-    CODE = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-input[1]//input")
-    OFFICIAL_NAME = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-input[2]//input")
-    DESCRIPTION = (By.XPATH, f"{DIALOG_INPUTS}//zyfra-input//textarea")
+    NAME_SELECT = (By.XPATH, f"{DIALOG_INPUTS[1]}//zyfra-select")
+    NAME_INPUT = (By.XPATH, f"{NAME_SELECT[1]}//input")
+    CODE = (By.XPATH, f"{DIALOG_INPUTS[1]}//zyfra-input[1]//input")
+    OFFICIAL_NAME = (By.XPATH, f"{DIALOG_INPUTS[1]}//zyfra-input[2]//input")
+    DESCRIPTION = (By.XPATH, f"{DIALOG_INPUTS[1]}//zyfra-input//textarea")
 
     TABS = (By.XPATH, "//div[@class='dialog__content__form__tabs']")
-    COMMON_TAB = (By.XPATH, f"{TABS}//div[@class='dialog__content__form__tabs__tab'][1]//button")
-    ANALYTICS_TAB = (By.XPATH, f"{TABS}//div[@class='dialog__content__form__tabs__tab'][2]//button")
+    COMMON_TAB = (By.XPATH, f"{TABS[1]}//div[@class='dialog__content__form__tabs__tab'][1]//button")
+    ANALYTICS_TAB = (By.XPATH, f"{TABS[1]}//div[@class='dialog__content__form__tabs__tab'][2]//button")
 
     UNIT_CLASSES = (By.XPATH, "//div[@class='dialog__content__form__common__unit-classes']//zyfra-select")
-    UNIT_CLASSES_INPUT = (By.XPATH, f"{UNIT_CLASSES}//input")
+    UNIT_CLASSES_INPUT = (By.XPATH, f"{UNIT_CLASSES[1]}//input")
     UNITS = (By.XPATH, "//div[@class='dialog__content__form__common__units']//zyfra-select")
-    UNITS_INPUT = (By.XPATH, f"{UNITS}//input")
+    UNITS_INPUT = (By.XPATH, f"{UNITS[1]}//input")
     UNIT_DIGITS = (By.XPATH, "//div[@class='dialog__content__form__common__unit-digits']//input")
     DIGITAL_SETS = (By.XPATH, "//div[@class='dialog__content__form__common__unit-classes']//zyfra-select")
-    DIGITAL_SETS_INPUT = (By.XPATH, f"{DIGITAL_SETS}//input")
+    DIGITAL_SETS_INPUT = (By.XPATH, f"{DIGITAL_SETS[1]}//input")
 
     ANALYTICS_TABLE = (By.XPATH, "//div[@class='dialog__content__form__types ng-star-inserted']//table")
 
@@ -73,7 +73,7 @@ class ZQATableLocators:
     HLINE = (By.XPATH, "//thead//tr")
     FLINE = (By.XPATH, "//tfoot//tr")
 
-    CELL_BUTTON = (By.XPATH, f"{BLINE}//td//zyfra-icon")
+    CELL_BUTTON = (By.XPATH, f"{BLINE[1]}//td//zyfra-icon")
 
 
 class ZQADatePickerLocators:
@@ -109,7 +109,7 @@ class ZQADropDownLocators:
     MENU_LINE = (By.XPATH, f"{MENU[1]}//ul[@class='zyfra-menu-time']//li")
 
     MAT_MENU = (By.XPATH, "//div[@class='mat-menu-content']")
-    MAT_MENU_BUTTON = (By.XPATH, f"{MAT_MENU}//button")
+    MAT_MENU_BUTTON = (By.XPATH, f"{MAT_MENU[1]}//button")
 
 
 class ZQATabLocators:
