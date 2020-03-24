@@ -15,7 +15,7 @@ class TestTypedocs:
 
     def test_search_typedoc(self):
         """Найти тип НД"""
-        self.main.search_typedoc_by_drop_down('Методики испытаний')
+        self.main.search_typedoc_by_drop_down('методики испытаний')
         self.main.should_be_normdoc_is_selected('Методики испытаний')
 
     def test_hide_show_typedocs(self):

@@ -74,6 +74,8 @@ class ZQATableLocators:
     FLINE = (By.XPATH, "//tfoot//tr")
 
     CELL_BUTTON = (By.XPATH, f"{BLINE[1]}//td//zyfra-icon")
+    CELL_EXPAND = (By.XPATH, f"{BLINE[1]}//")
+    CELL_CHECKER = (By.XPATH, f"{BLINE[1]}//label//span")
 
 
 class ZQADatePickerLocators:
@@ -117,6 +119,7 @@ class ZQATabLocators:
     TREE_TAB = (By.XPATH, "//mat-tree-node//div[@class='menu-item-block-name']")
     SPAN_TAB = (By.XPATH, "//zyfra-icon[@iconcalss='add-plus']")
     ADD_ICON = (By.XPATH, "//ul//li//span")
+    LINK = (By.XPATH, "//a")
 
 
 class ZQACalendarLocators:
@@ -132,4 +135,5 @@ class ZQACalendarLocators:
     CALENDAR_TABLE_MONTH = (By.XPATH, f"{CALENDAR[1]}//mat-month-view//table")
     CALENDAR_TABLE_YEAR = (By.XPATH, f"{CALENDAR[1]}//mat-year-view//table")
     CALENDAR_TABLE_MULTI_YEAR = (By.XPATH, f"{CALENDAR[1]}//mat-multi-year-view//table")
+
 

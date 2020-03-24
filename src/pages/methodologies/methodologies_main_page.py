@@ -193,7 +193,7 @@ class MethodsDialog(BP):
     def check_active(self):
         self.dialog.click_checker()
 
-    def should_be_check_active_state(self, state:bool):
+    def should_be_check_active_state(self, state: bool):
         self.dialog.should_be_checker_state(state)
 
     # region Общие

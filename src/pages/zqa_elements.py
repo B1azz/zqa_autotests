@@ -376,6 +376,8 @@ class ZQATable(ZQAElement):
         self.cell_locator = (Tbl.CELL[0], self.entry_locator + Tbl.CELL[1])
         self.table_line_locator = (Tbl.BLINE[0], self.entry_locator + Tbl.BLINE[1])
         self.dialog_cell = (Tbl.DIALOG_CELL[0], self.entry_locator + Tbl.DIALOG_CELL[1])
+        self.cell_expand = (Tbl.CELL_EXPAND[0], self.entry_locator + Tbl.CELL_EXPAND[1])
+        self.cell_checker = (Tbl.CELL_CHECKER[0], self.entry_locator + Tbl.CELL_CHECKER[1])
 
     def click_to_table_dialog_cell_by_text(self, text):
         cell = self.bp.add_text_to_locator(*self.dialog_cell, text)
@@ -494,6 +496,25 @@ class ZQATable(ZQAElement):
         table_line = (cell[0], cell[1] + "/../..")
         assert self.bp.is_not_element_present(*table_line), 'Строка с такой ячейкой в таблице'
 
+    def click_to_checker_in_cell_by_text(self, text):
+        cell = self.bp.add_strip_text_to_locator(*self.cell_checker, text)
+        checker = (cell[0], cell[1] + "/..")
+        self.bp.click_to_element(*checker)
+
+    def should_be_checked_cell_by_text(self, text):
+        cell = self.bp.add_strip_text_to_locator(*self.cell_checker, text)
+        checker = (cell[0], cell[1] + "/..")
+        assert self.bp.get_element_attribute(*checker, 'class') == 'zyfra_container-checkbox zyfra_checkbox-checked'
+
+    def should_be_not_checked_cell_by_text(self, text):
+        cell = self.bp.add_strip_text_to_locator(*self.cell_checker, text)
+        checker = (cell[0], cell[1] + "/..")
+        assert self.bp.get_element_attribute(*checker, 'class') == 'zyfra_container-checkbox'
+
+    def click_to_expand_in_cell_by_text(self, text):
+        cell = self.bp.add_strip_text_to_locator(*self.cell_checker, text)
+        expand = (cell[0], cell[1] + "/../../../zyfra-icon")
+        self.bp.click_to_element(*expand)
 
 class ZQATab(ZQAElement):
     def __init__(self, entry_locator, bp):
@@ -521,7 +542,6 @@ class ZQATab(ZQAElement):
     def should_be_not_tree_tab_by_name(self, name):
         tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
         assert self.bp.is_not_element_present(*tree_tab_locator), 'Такой элемент все еще в дереве'
-
 
 
 class ZQADatePicker(ZQAElement):
