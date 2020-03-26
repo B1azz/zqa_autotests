@@ -23,11 +23,11 @@ class TestAddEditCollections:
         """Добавить сборник"""
         self.main.should_be_collection_by_name_in_tree('Селениум')
 
-    @pytest.mark.xfail(reason='Z10000018-1005')
     def test_search_collection(self):
         """Найти сборник"""
-        self.main.search_collection_by_name('селениум')
+        self.main.search_collection_by_name('cелениум')
         self.main.should_be_collection_by_name_in_tree('Селениум')
+        self.main.hide_search_input()
 
     def test_collection_values(self):
         """Значения внутри сборника"""
@@ -255,7 +255,6 @@ class TestAddEditMethods:
         self.methods.should_be_test_by_name('дискрет1')
         self.methods.click_close_button()
 
-    @pytest.mark.only
     def test_delete_test(self):
         """Добавление нескольких показателей"""
         self.main.edit_method_by_name('Селениум создание')
@@ -274,7 +273,6 @@ class TestAddEditMethods:
         self.methods.should_be_not_test_by_name('аналог1')
         self.methods.should_be_test_by_name('дискрет1')
         self.methods.click_close_button()
-
 
 
 

@@ -156,7 +156,7 @@ class NormDocsDialog(BP):
         self.some_wait()
         self.calendar.choose_date(year, month, day)
         self.start_date.click_to_time_button()
-        self.drop_down.select_menu_line_by_text(time)
+        self.drop_down.select_menu_time_line_by_text(time)
 
     def input_start_date(self, start_date):
         self.start_date.input_text_to_date_input(start_date)
@@ -166,7 +166,7 @@ class NormDocsDialog(BP):
         self.some_wait()
         self.calendar.choose_date(year, month, day)
         self.stop_date.click_to_time_button()
-        self.drop_down.select_menu_line_by_text(time)
+        self.drop_down.select_menu_time_line_by_text(time)
 
     def input_stop_date(self, stop_date):
         self.stop_date.input_text_to_date_input(stop_date)

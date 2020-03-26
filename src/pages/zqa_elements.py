@@ -60,6 +60,7 @@ class ZQAToolbar(ZQAElement):
         super().__init__(entry_locator, bp)
         self.filter_button = (Tlbr.FILTER_BUTTON[0], self.entry_locator + Tlbr.FILTER_BUTTON[1])
         self.add_button = (Tlbr.ADD_BUTTON[0], self.entry_locator + Tlbr.ADD_BUTTON[1])
+        self.add_dropdown_button = (Tlbr.ADD_DROPDOWN_BUTTON[0], self.entry_locator + Tlbr.ADD_DROPDOWN_BUTTON[1])
         self.edit_button = (Tlbr.EDIT_BUTTON[0], self.entry_locator + Tlbr.EDIT_BUTTON[1])
         self.copy_button = (Tlbr.COPY_BUTTON[0], self.entry_locator + Tlbr.COPY_BUTTON[1])
         self.diapason_button = (Tlbr.DIAPASON_BUTTON[0], self.entry_locator + Tlbr.DIAPASON_BUTTON[1])
@@ -68,6 +69,10 @@ class ZQAToolbar(ZQAElement):
         self.refresh_button = (Tlbr.REFRESH_BUTTON[0], self.entry_locator + Tlbr.REFRESH_BUTTON[1])
         self.settings_button = (Tlbr.SETTINGS_BUTTON[0], self.entry_locator + Tlbr.SETTINGS_BUTTON[1])
         self.search_input = (Tlbr.SEARCH_INPUT[0], self.entry_locator + Tlbr.SEARCH_INPUT[1])
+        self.end_button = (Tlbr.END_BUTTON[0], self.entry_locator + Tlbr.END_BUTTON[1])
+        self.down_button = (Tlbr.DOWN_BUTTON[0], self.entry_locator + Tlbr.DOWN_BUTTON[1])
+        self.up_button = (Tlbr.UP_BUTTON[0], self.entry_locator + Tlbr.UP_BUTTON[1])
+        self.home_button = (Tlbr.HOME_BUTTON[0], self.entry_locator + Tlbr.HOME_BUTTON[1])
 
     def click_soft_filter_button(self):
         """
@@ -80,6 +85,9 @@ class ZQAToolbar(ZQAElement):
         Клик по кнопке Создать
         """
         self.bp.click_to_element(*self.add_button)
+
+    def click_add_drop_down_button(self):
+        self.bp.click_to_element(*self.add_dropdown_button)
 
     def click_edit_button(self):
         """
@@ -140,19 +148,40 @@ class ZQAToolbar(ZQAElement):
         """ Очистить текст """
         self.bp.clear_text(*self.search_input)
 
+    def click_end_button(self):
+        self.bp.click_to_element(*self.end_button)
+
+    def click_down_button(self):
+        self.bp.click_to_element(*self.down_button)
+
+    def click_up_button(self):
+        self.bp.click_to_element(*self.up_button)
+
+    def click_home_button(self):
+        self.bp.click_to_element(*self.home_button)
+
 
 class ZQAAddDialog(ZQAElement):
     def __init__(self, entry_locator, bp):
         super().__init__(entry_locator, bp)
         self.header = (Add.HEADER[0], self.entry_locator + Add.HEADER[1])
+        self.title = (Add.TITLE[0], self.entry_locator + Add.TITLE[1])
         self.toolbar = (Add.TOOLBAR[0], self.entry_locator + Add.TOOLBAR[1])
         self.table = (Add.TABLE[0], self.entry_locator + Add.TABLE[1])
+        self.table2 = (Add.TABLE2[0], self.entry_locator + Add.TABLE2[1])
         self.close_button = (Add.CLOSE_BUTTON[0], self.entry_locator + Add.CLOSE_BUTTON[1])
         self.select_button = (Add.SELECT_BUTTON[0], self.entry_locator + Add.SELECT_BUTTON[1])
+
+        self.add_table_main = ZQATable(self.table[1], self.bp)
+        self.add_table_add = ZQATable(self.table2[1], self.bp)
+        self.add_toolbar = ZQAToolbar(self.toolbar[1], self.bp)
 
     def should_be_header_text(self, text):
         _text = self.bp.get_element_text(*self.header)
         assert _text == text
+
+    def input_title(self, text):
+        self.bp.clear_input_text(*self.title, text)
 
     def click_close_button(self):
         self.bp.click_to_element(*self.close_button)
@@ -160,13 +189,44 @@ class ZQAAddDialog(ZQAElement):
     def click_select_button(self):
         self.bp.click_to_element(*self.select_button)
 
-    def choose_table_line_by_text(self, text):
-        table = ZQATable(self.table[1], self.bp)
-        table.click_to_table_dialog_cell_by_text(text)
+    def choose_table_line_by_text(self, text, table='main'):
+        if table == 'main':
+            self.add_table_main.click_to_table_dialog_cell_by_text(text)
+        if table == 'add':
+            self.add_table_add.click_to_table_dialog_cell_by_text(text)
+
+    def check_table_cell_by_text(self, text, table='main'):
+        if table == 'main':
+            self.add_table_main.click_to_checker_in_cell_by_text(text)
+        if table == 'add':
+            self.add_table_main.click_to_checker_in_cell_by_text(text)
+
+    def expand_table_line_by_text(self, text, table='main'):
+        if table == 'main':
+            self.add_table_main.click_to_expand_in_cell_by_text(text)
+        if table == 'add':
+            self.add_table_add.click_to_expand_in_cell_by_text(text)
 
     def input_search_text(self, text):
-        toolbar = ZQAToolbar(self.toolbar[1], self.bp)
-        toolbar.input_search_text(text)
+        self.add_toolbar.input_search_text(text)
+
+    def click_add_button(self):
+        self.add_toolbar.click_add_button()
+
+    def click_delete_button(self):
+        self.add_toolbar.click_delete_button()
+
+    def click_end_button(self):
+        self.add_toolbar.click_end_button()
+
+    def click_down_button(self):
+        self.add_toolbar.click_down_button()
+
+    def click_up_button(self):
+        self.add_toolbar.click_up_button()
+
+    def click_home_button(self):
+        self.add_toolbar.click_home_button()
 
 
 class ZQATestDialog(ZQAElement):
@@ -372,12 +432,13 @@ class ZQACodeEditor(ZQAElement):
 class ZQATable(ZQAElement):
     def __init__(self, entry_locator, bp):
         super().__init__(entry_locator, bp)
+        self.text_locator = (Tbl.TEXT[0], self.entry_locator + Tbl.TEXT[1])
         self.column_locator = (Tbl.BUTTON[0], self.entry_locator + Tbl.BUTTON[1])
         self.cell_locator = (Tbl.CELL[0], self.entry_locator + Tbl.CELL[1])
         self.table_line_locator = (Tbl.BLINE[0], self.entry_locator + Tbl.BLINE[1])
         self.dialog_cell = (Tbl.DIALOG_CELL[0], self.entry_locator + Tbl.DIALOG_CELL[1])
-        self.cell_expand = (Tbl.CELL_EXPAND[0], self.entry_locator + Tbl.CELL_EXPAND[1])
         self.cell_checker = (Tbl.CELL_CHECKER[0], self.entry_locator + Tbl.CELL_CHECKER[1])
+        self.expand_cell = (Tbl.EXPAND_CELL[0], self.entry_locator + Tbl.EXPAND_CELL[1])
 
     def click_to_table_dialog_cell_by_text(self, text):
         cell = self.bp.add_text_to_locator(*self.dialog_cell, text)
@@ -474,11 +535,11 @@ class ZQATable(ZQAElement):
             self.bp.click_to_element(*table_line)
 
     def should_be_dialog_cell_with_name(self, name):
-        cell = self.bp.add_index_to_locator(*self.dialog_cell, name)
+        cell = self.bp.add_text_to_locator(*self.dialog_cell, name)
         self.bp.is_element_present(*cell)
 
     def should_be_not_dialog_cell_with_name(self, name):
-        cell = self.bp.add_index_to_locator(*self.dialog_cell, name)
+        cell = self.bp.add_text_to_locator(*self.dialog_cell, name)
         self.bp.is_not_element_present(*cell, timeout=1.5)
 
     def should_be_line_with_name(self, name):
@@ -516,11 +577,30 @@ class ZQATable(ZQAElement):
         expand = (cell[0], cell[1] + "/../../../zyfra-icon")
         self.bp.click_to_element(*expand)
 
+    def should_be_expand_cell_by_text(self, text):
+        cell = self.bp.add_text_to_locator(*self.expand_cell, text)
+        assert self.bp.is_element_present(*cell), 'Строки с такой ячейкой нет'
+
+    def should_be_not_expand_cell_by_text(self, text):
+        cell = self.bp.add_text_to_locator(*self.expand_cell, text)
+        assert self.bp.is_not_element_present(*cell), 'Строка с такой ячейкой есть'
+
+    def click_to_strip_text(self, text, add_locator='', index=1):
+        text_cell = self.bp.add_strip_text_to_locator(*self.text_locator, text)
+        complete_text = self.bp.add_index_to_locator(text_cell[0], text_cell[1] + add_locator, index)
+        self.bp.click_to_element(*complete_text)
+
+    def click_to_text(self, text, add_locator='', index=1):
+        text_cell = self.bp.add_text_to_locator(*self.text_locator, text)
+        complete_text = self.bp.add_index_to_locator(text_cell[0], text_cell[1] + add_locator, index)
+        self.bp.click_to_element(*complete_text)
+
 
 class ZQATab(ZQAElement):
     def __init__(self, entry_locator, bp):
         super().__init__(entry_locator, bp)
         self.tree_tab = (Tab.TREE_TAB[0], self.entry_locator + Tab.TREE_TAB[1])
+        self.link = (Tab.LINK[0], self.entry_locator + Tab.LINK[1])
 
     def click_to_tree_tab_by_name(self, name):
         """
@@ -543,6 +623,18 @@ class ZQATab(ZQAElement):
     def should_be_not_tree_tab_by_name(self, name):
         tree_tab_locator = self.bp.add_strip_text_to_locator(*self.tree_tab, name)
         assert self.bp.is_not_element_present(*tree_tab_locator), 'Такой элемент все еще в дереве'
+
+    def should_be_link_by_name(self, name):
+        link_locator = self.bp.add_strip_text_to_locator(*self.link, name)
+        assert self.bp.is_element_present(*link_locator)
+
+    def should_be_not_link_by_name(self, name):
+        link_locator = self.bp.add_strip_text_to_locator(*self.link, name)
+        assert self.bp.is_not_element_present(*link_locator)
+
+    def click_to_link_by_name(self, name):
+        link_locator = self.bp.add_strip_text_to_locator(*self.link, name)
+        self.bp.click_to_element(*link_locator)
 
 
 class ZQADatePicker(ZQAElement):
@@ -668,8 +760,13 @@ class ZQADropDown(ZQAElement):
         self.bp.click_to_element(*option_selector)
         self.bp.some_wait()
 
-    def select_menu_line_by_text(self, text):
+    def select_menu_time_line_by_text(self, text):
         menu_line = self.bp.add_text_to_locator(*Drop.MENU_LINE, text)
+        self.bp.click_to_element(*menu_line)
+        self.bp.some_wait()
+
+    def select_zyfra_menu_content_by_text(self, text):
+        menu_line = self.bp.add_strip_text_to_locator(*Drop.MENU_LINE, text)
         self.bp.click_to_element(*menu_line)
         self.bp.some_wait()
 

@@ -31,6 +31,10 @@ class MethodologiesMainPage(BP):
         self.collection_toolbar.input_search_text(text)
         self.some_wait()
 
+    def hide_search_input(self):
+        self.collection_toolbar.click_search_button()
+        self.some_wait()
+
     def hide_collection_tree(self):
         self.collection_toolbar.click_soft_filter_button()
 

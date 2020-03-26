@@ -12,6 +12,7 @@ class ZQADialogLocators:
 class ZQAToolbarLocators:
     FILTER_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'sort-filter']")
     ADD_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'add-plus']")
+    ADD_DROPDOWN_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'add-plus-drop-down-list']")
     EDIT_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'editor-mode']")
     COPY_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'vectors-arrange-below']")
     DIAPASON_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'arrows-arrow-expand-horizontal']")
@@ -20,12 +21,18 @@ class ZQAToolbarLocators:
     SEARCH_INPUT = (By.XPATH, "//input")
     REFRESH_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'arrows-cached-1']")
     SETTINGS_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'settings']")
+    END_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'chevrons-double-down']")
+    DOWN_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'chevrons-down']")
+    UP_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'chevrons-up']")
+    HOME_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass = 'chevrons-double-up']")
 
 
 class ZQAAddDialogLocators:
     HEADER = (By.XPATH, "//div[@class ='dialog__toolbar__title']/div")
+    TITLE = (By.XPATH, "//div[@class='block_input']//input")
     TOOLBAR = (By.XPATH, "//div[@class ='dialog__content__search']")
-    TABLE = (By.XPATH, "//table")
+    TABLE = (By.XPATH, "//table[1]")
+    TABLE2 = (By.XPATH, "//table[2]")
     CLOSE_BUTTON = (By.XPATH, "//zyfra-icon[@iconclass='cancel-close']")
     SELECT_BUTTON = (By.XPATH, "//div[@class='dialog__actions']//button[@color='success']")
 
@@ -65,6 +72,7 @@ class ZQACodeEditorLocators:
 
 
 class ZQATableLocators:
+    TEXT = (By.XPATH, "//*")
     BUTTON = (By.XPATH, "//button")
     CELL = (By.XPATH, "//tr//td/span")
     DIALOG_CELL = (By.XPATH, "//tr//td")
@@ -73,8 +81,9 @@ class ZQATableLocators:
     HLINE = (By.XPATH, "//thead//tr")
     FLINE = (By.XPATH, "//tfoot//tr")
 
-    CELL_BUTTON = (By.XPATH, f"{BLINE[1]}//td//zyfra-icon")
+    CELL_BUTTON = (By.XPATH, f"{BLINE[1]}//td//zyfra-icon[1]")
     CELL_CHECKER = (By.XPATH, f"{BLINE[1]}//label//span")
+    EXPAND_CELL = (By.XPATH, f"{BLINE[1]}//td/div")
 
 
 class ZQADatePickerLocators:
@@ -108,6 +117,7 @@ class ZQADropDownLocators:
 
     MENU = (By.XPATH, "//zyfra-menu")
     MENU_LINE = (By.XPATH, f"{MENU[1]}//ul[@class='zyfra-menu-time']//li")
+    MENU_CONTENT = (By.XPATH, f"{MENU[1]}//div[@class='zyfra_menu-item']")
 
     MAT_MENU = (By.XPATH, "//div[@class='mat-menu-content']")
     MAT_MENU_BUTTON = (By.XPATH, f"{MAT_MENU[1]}//button")

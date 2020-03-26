@@ -160,13 +160,13 @@ class SpecsDialog(BP):
 
         self.tests_toolbar = ZQAToolbar(DialogS.TESTS_TOOLBAR[1], self.BP)
         self.tests_table = ZQATable(DialogS.TESTS_TABLE[1], self.BP)
-        self.tests_dialog = _(DialogS.TESTS_DIALOG[1], self.BP)
+        self.tests_dialog = ZQAAddDialog(DialogS.TESTS_DIALOG[1], self.BP)
 
         self.norms_toolbar = ZQAToolbar(DialogS.NORMS_TOOLBAR[1], self.BP)
         self.norms_table = ZQATable(DialogS.NORMS_TABLE[1], self.BP)
         self.norms_tabs = ZQATab(DialogS.NORMS_TABS[1], self.BP)
-        self.norms_sort_dialog = _(DialogS.NORMS_SORT_DIALOG[1], self.BP)
-        self.norms_tests_dialog = _(DialogS.NORMS_TESTS_DIALOG[1], self.BP)
+        self.norms_sort_dialog = ZQAAddDialog(DialogS.NORMS_SORT_DIALOG[1], self.BP)
+        self.norms_tests_dialog = ZQAAddDialog(DialogS.NORMS_TESTS_DIALOG[1], self.BP)
 
         self.collections_toolbar = ZQAToolbar(DialogS.COLLECTIONS_TOOLBAR[1], self.BP)
         self.collections_table = ZQATable(DialogS.COLLECTIONS_TABLE[1], self.BP)
@@ -193,11 +193,51 @@ class SpecsDialog(BP):
         self.dialog.should_be_checker_state(state)
 
     # region Общие
+    def input_name(self, name):
+        self.clear_input_text(*DialogS.NAME, name)
+
+    def input_code(self, code):
+        self.clear_input_text(*DialogS.NAME, code)
+
+    def input_official_name(self, official_name):
+        self.clear_input_text(*DialogS.FULL_NAME, official_name)
+
+    def input_description(self, description):
+        self.clear_input_text(*DialogS.DESCRIPTION, description)
+
+    def choose_doc_by_name(self, doc_name):
+        self.click_to_element(*DialogS.DOC_SELECT)
+        self.drop_down.select_option_by_text(doc_name)
+
+    def input_common_tab(self, name, code, official_name, description, doc_name):
+        self.switch_tab_by_name('Общие')
+        if name != '':
+            self.input_name(name)
+        if code != '':
+            self.input_code(code)
+        if official_name != '':
+            self.input_official_name(official_name)
+        if description != '':
+            self.input_description(description)
+        if doc_name != '':
+            self.choose_doc_by_name(doc_name)
+
+    def should_be_in_common_tab_values(self, name, code, official_name, description, doc_name):
+        _name = self.get_element_attribute(*DialogS.NAME, 'value')
+        _code = self.get_element_attribute(*DialogS.CODE, 'value')
+        _official_name = self.get_element_attribute(*DialogS.FULL_NAME, 'value')
+        _description = self.get_element_attribute(*DialogS.DESCRIPTION, 'value')
+        _doc_name = self.get_element_attribute(*DialogS.DOC_SELECT_INPUT, 'value')
+        assert _name == name
+        assert _code == code
+        assert _official_name == official_name
+        assert _description == description
+        assert _doc_name == doc_name
     # endregion
 
     # region Продукты и лаборатории
     def add_products_by_names(self, *products):
-        self.switch_tab_by_name('Продукты')
+        self.switch_tab_by_name('Продукты и лаборатории')
         self.products_toolbar.click_add_button()
         self.some_wait()
         for product in products:
@@ -205,33 +245,95 @@ class SpecsDialog(BP):
         self.products_dialog.click_select_button()
         self.some_wait()
 
-    def check_product_lab(self, product, lab):
-        self.switch_tab_by_name('Продукты')
-        pass
+    def check_product_lab(self, product):
+        self.switch_tab_by_name('Продукты и лаборатории')
+        self.products_table.click_to_checker_in_cell_by_text(product)
 
-    def should_be_check_product_tab(self, product, lab):
-        self.switch_tab_by_name('Продукты')
-        pass
+    def should_be_check_product_tab(self, product):
+        self.switch_tab_by_name('Продукты и лаборатории')
+        self.products_table.should_be_checked_cell_by_text(product)
 
     def should_be_product_in_table_by_name(self, name):
-        self.switch_tab_by_name('Продукты')
+        self.switch_tab_by_name('Продукты и лаборатории')
         self.products_table.should_be_dialog_cell_with_name(name)
 
     def delete_product_by_name(self, name):
-        self.switch_tab_by_name('Продукты')
+        self.switch_tab_by_name('Продукты и лаборатории')
         self.products_table.click_to_table_dialog_cell_by_text(name)
         self.products_toolbar.click_delete_button()
         self.some_wait()
 
     def should_be_not_product_in_table_by_name(self, name):
-        self.switch_tab_by_name('Продукты')
+        self.switch_tab_by_name('Продукты и лаборатории')
         self.products_table.should_be_not_dialog_cell_with_name(name)
     # endregion
 
     # region Показатели
+    def add_tests_by_names(self, *tests):
+        self.switch_tab_by_name('Показатели')
+        self.tests_toolbar.click_add_drop_down_button()
+        self.drop_down.click_mat_menu_button_by_text('По методике')
+        self.some_wait()
+        for test in tests:
+            self.products_dialog.choose_table_line_by_text(test)
+        self.tests_dialog.click_select_button()
+        self.some_wait()
+
+    def delete_test_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.choose_table_line_by_cell_text1(name)
+        self.tests_toolbar.click_delete_button()
+        self.some_wait()
+
+    def should_be_test_in_table_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.should_be_expand_cell_by_text(name)
+
+    def should_be_not_test_in_table_by_name(self, name):
+        self.switch_tab_by_name('Показатели')
+        self.tests_table.should_be_not_expand_cell_by_text(name)
     # endregion
 
     # region Нормы продукта
+    def add_new_sortification_with_sort(self, sortification, sort):
+        self.switch_tab_by_name('Нормы продукта')
+        self.norms_toolbar.click_add_drop_down_button()
+        self.drop_down.click_mat_menu_button_by_text('Добавить тип сортификации и сорта')
+        self.some_wait()
+        self.norms_sort_dialog.input_title(sortification)
+        self.norms_sort_dialog.input_search_text(sort)
+        self.norms_sort_dialog.click_add_button()
+        self.norms_sort_dialog.click_select_button()
+
+    def should_be_sortification(self, sortification):
+        self.norms_tabs.should_be_link_by_name(sortification)
+
+    def should_be_not_sortification(self, sortification):
+        self.norms_tabs.should_be_not_link_by_name(sortification)
+
+    def click_to_sortification_by_name(self, sortification):
+        self.norms_tabs.click_to_link_by_name(sortification)
+
+    def click_edit_sortification_by_name(self, sortification):
+        self.click_to_sortification_by_name(sortification)
+        self.norms_toolbar.click_edit_button()
+
+    def click_delete_sortification_by_name(self, sortification):
+        self.click_to_sortification_by_name(sortification)
+        self.norms_toolbar.click_delete_button()
+
+    def add_tests_to_sortification_by_name(self, sortification, *tests):
+        self.click_to_sortification_by_name(sortification)
+        self.norms_toolbar.click_add_drop_down_button()
+        self.drop_down.click_mat_menu_button_by_text('Добавить показатель')
+        for test in tests:
+            self.norms_tests_dialog.check_table_cell_by_text(test)
+        self.norms_tests_dialog.click_select_button()
+        self.some_wait()
+
+    def click_to_test_norm_in_table(self, test, sort: int):
+        self.norms_table.click_to_text(test, '/../../td', sort)
+        self.norms_toolbar.click_edit_button()
     # endregion
 
     # region Сборники
