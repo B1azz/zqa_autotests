@@ -332,7 +332,7 @@ class SpecsDialog(BP):
         self.some_wait()
 
     def click_to_test_norm_in_table(self, test, sort: int):
-        self.norms_table.click_to_text(test, '/../../td', sort)
+        self.norms_table.click_to_text(test, "/../../td", sort)
         self.norms_toolbar.click_edit_button()
     # endregion
 

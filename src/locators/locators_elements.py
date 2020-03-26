@@ -146,3 +146,20 @@ class ZQACalendarLocators:
     CALENDAR_TABLE_MULTI_YEAR = (By.XPATH, f"{CALENDAR[1]}//mat-multi-year-view//table")
 
 
+class ZQANormDialogLocators:
+    HEADER = ()
+    RADIO_BUTTONS = ()
+
+    TABLE = ()
+    LOW_BORDER = ()
+    LOW_CONDITION = ()
+    UP_BORDER = ()
+    UP_CONDITION = ()
+    UNITS = ()
+
+    CHECKBOXES = (By.XPATH, "//div[@class='container-left']")
+
+
+
+
+
