@@ -17,7 +17,7 @@ def pytest_addoption(parser):
 
 
 @pytest.fixture(scope="function")
-def browser(request):
+def browser1(request):
     browser_name = request.config.getoption("browser_name")
     browser = None
     if browser_name == "remote":
@@ -56,15 +56,15 @@ def browser(request):
     browser.quit()
 
 
-# @pytest.fixture(scope="function")
-# def browser(request):
-#     print("\nstart browser for test..")
-#     options = webdriver.ChromeOptions()
-#
-#     browser = webdriver.Chrome()
-#     yield browser
-#     print("\n\nQuit browser.")
-#     browser.quit()
+@pytest.fixture(scope="function")
+def browser(request):
+    print("\nstart browser for test..")
+    options = webdriver.ChromeOptions()
+
+    browser = webdriver.Chrome()
+    yield browser
+    print("\n\nQuit browser.")
+    browser.quit()
 
 
 @pytest.fixture(scope="session")

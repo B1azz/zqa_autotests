@@ -5,6 +5,12 @@ from src.pages.base_page import BasePage
 
 
 @pytest.fixture
+def go_to_specs(browser):
+    zqa = ZQAPage(browser, browser.current_url)
+    zqa.zqa_go_to_some_feature("НСИ/Спецификации")
+
+
+@pytest.fixture
 def go_to_methodologies(browser):
     zqa = ZQAPage(browser, browser.current_url)
     zqa.zqa_go_to_some_feature("НСИ/Методики и методы")

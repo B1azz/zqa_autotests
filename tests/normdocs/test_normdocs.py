@@ -73,6 +73,8 @@ class TestCreateAndEditNormDocs:
         self.dialog.should_be_in_common_tab_values('Тест Селениум copy', 'Селениум', 'Методики испытаний',
                                                    '12345', 'Для автотеста',
                                                    '19-03-2020 00:00', '19-03-2020 08:00', '19-03-2020 17:00')
+        self.dialog.click_close_button()
+        self.main.delete_this_normdoc('Тест Селениум copy')
 
     def test_typedoc_valid(self):
         """Проверка, что НД в нужном типе документа"""
