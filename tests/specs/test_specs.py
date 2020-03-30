@@ -8,6 +8,7 @@ from src.pages.zqa_page import go_to_specs
 @pytest.mark.ui
 @pytest.mark.specs
 class TestAddEditCollections:
+    @pytest.fixture(autouse=True)
     def setup(self, browser, login_to_polygon, go_to_qa, go_to_specs):
         self.main = SpecsMainPage(browser, browser.current_url)
         self.collections = CollectionsDialog(browser, browser.current_url)
@@ -48,7 +49,7 @@ class TestAddEditCollections:
 @pytest.mark.specs
 class TestDeleteCollections:
     @pytest.fixture(autouse=True)
-    def setup(self, browser, login_to_polygon, go_to_qa, go_to_methodologies):
+    def setup(self, browser, login_to_polygon, go_to_qa, go_to_specs):
         self.main = SpecsMainPage(browser, browser.current_url)
         self.collections = CollectionsDialog(browser, browser.current_url)
 
